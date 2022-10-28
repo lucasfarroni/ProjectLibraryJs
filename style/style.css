@@ -6,6 +6,12 @@
 }
 #form{
     display: none;
+    border-style: solid;
+    align-items: center;
+}
+
+.popUp{
+
 }
 #circleButton {
 
