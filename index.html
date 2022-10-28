@@ -38,52 +38,51 @@
 
 
     <div id="form">
-
         <div class="popUp">
-            <button type="button" class="btn btn-danger" id="closeForm">close</button>
-            <div class="row">
-                <div class="col-25">
-                    <label for="fname">Title</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" id="fname" name="firstname" placeholder="Your name..">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-25">
-                    <label for="lname">Last Name</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-25">
-                    <label for="country">Country</label>
-                </div>
-                <div class="col-75">
-                    <select id="country" name="country">
-                        <option value="australia">Australia</option>
 
-                    </select>
+            <div class="form-group">
+                <label for="title">title</label>
+                <input type="text" class="form-control" id="title" placeholder="Example input">
+            </div>
+
+            <div class="form-group">
+                <label for="formGroupExample">Example label</label>
+                <input type="text" class="form-control" id="formGroupExample" placeholder="Example input">
+            </div>
+            <label for="basic-url">image</label>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">https://</span>
+                </div>
+                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+            </div>
+            <div class="DateInput"><label for="date">Release Date :</label><input type="date" id="date" rows="1"
+                                                                                  cols="20"></div>
+
+            <div class="DropCLick"><label for="dropdown">Type</label>
+                <div class="dropdown" id="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button">Album</button>
+                        <button class="dropdown-item" type="button">Game</button>
+                        <button class="dropdown-item" type="button">Movie</button>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-25">
-                    <label for="subject">Subject</label>
-                </div>
-                <div class="col-75">
-                    <textarea id="subject" name="subject" placeholder="Write something.."
-                              style="height:200px"></textarea>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <button type="button" class="btn btn-danger" id="btnSubmit" >submit</button>
+
+            <div class="descript">
+                <label for="subject">Description</label>
+                <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
             </div>
         </div>
-    </div>
 
+        <button type="button" class="btn btn-danger" id="btnSubmit">submit</button>
+        <button type="button" class="btn btn-primary" id="closeForm">close</button>
+
+    </div>
 </div>
 
 

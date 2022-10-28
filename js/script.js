@@ -8,7 +8,7 @@ document.getElementById('btnAddMedia').addEventListener('click',function () {
 
         console.log("test");
         document.getElementById('form').style.display="none";
-        name = document.getElementById('lname').value;
+        name = document.getElementById('title').value;
         document.getElementById('containerList').innerHTML +=
 
             `<div class="card ` + i + ` " style="width: 18rem;">`+
@@ -24,3 +24,7 @@ document.getElementById('btnAddMedia').addEventListener('click',function () {
 });
 
 let i = 0;
+// Rating Initialization
+$(document).ready(function() {
+    $('#rateMe2').mdbRate();
+});
