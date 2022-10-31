@@ -2,6 +2,10 @@
     margin-left: 1%;
 }
 #containerList{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
     padding: 0;
 }
 #form{
@@ -10,6 +14,11 @@
     border-radius: 1%;
     box-shadow: 0 0 5px #ccc;
     align-items: center;
+}
+
+.card{
+    margin-left: 20px;
+    margin-top: 10px;
 }
 
 .popUp{
