@@ -21,6 +21,14 @@
     margin-top: 10px;
 }
 
+.btn-delete{
+    color: white;
+    background-color: #d71b1b;
+    border-color : #d71b1b;
+    border-radius: 5px;
+    width: 100%;
+}
+
 .popUp{
 
 }
