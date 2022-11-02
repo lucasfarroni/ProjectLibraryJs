@@ -21,6 +21,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
             '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
             '</div>';
     });
+    //test
 
 });
 
