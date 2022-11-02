@@ -5,5 +5,10 @@ export class Media {
         this.rating = rating;
         this.img = img;
     }
-
+    set setTitle(title) {
+        this._title = title;
+    }
+    get getTitle() {
+        return this._title;
+    }
 }

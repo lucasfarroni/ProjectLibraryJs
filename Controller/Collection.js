@@ -1,4 +1,4 @@
-//import {Media} from "./Media";
+import {Media} from "./Media.js";
 
 export class Collection {
 
@@ -9,8 +9,14 @@ export class Collection {
     addMedia(obj) {
 
         this.collection.push(obj);
+        localStorage.setItem("Collection", JSON.stringify(this.collection));
+
     }
 
-
+    getCollection() {
+        return this.collection;
+    }
 }
+
+
 
