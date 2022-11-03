@@ -2,7 +2,7 @@ import {Collection} from "../Controller/Collection.js";
 import {Media} from "../Controller/Media.js";
 
 let collection = new Collection();
-let media = new Media("title", "releaseDate", "rating", "img");
+
 //collection.addMedia(media);
 //console.log(collection.collection);
 
@@ -18,9 +18,8 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
     document.getElementById('btnSubmit').addEventListener('click', function () {
         // i++;
 
-
+        let media = new Media(document.getElementById('title').value, "releaseDate", "rating", "img");
         document.getElementById('form').style.display = "none";
-        media.title = name =  document.getElementById('title').value;
 
         document.getElementById('containerList').innerHTML +=
 
@@ -43,8 +42,9 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
 /////////////////////////////////////////////////////////////LocalStorageAffichage
 if (localStorage.getItem('Collection') !== null) {
     let data = localStorage.getItem("Collection");
+    console.log(localStorage.getItem("Collection"));
+
     let dataParse = JSON.parse(data);
-    console.log(dataParse);
     let txt = "";
     let p = 0;
     dataParse.forEach((e) => {
