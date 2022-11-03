@@ -2,7 +2,7 @@ import {Collection} from "../Controller/Collection.js";
 import {Media} from "../Controller/Media.js";
 
 let collection = new Collection();
-
+let tab = [];
 //collection.addMedia(media);
 //console.log(collection.collection);
 
@@ -32,15 +32,21 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
             '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
             '</div>';
 
-        collection.addMedia(media);
-        console.log(collection.collection);
+        if (localStorage.getItem('Collection') !== null) {
+            tab = JSON.parse(localStorage.getItem('Collection'));
+            tab.push(media);
+            localStorage.setItem("Collection", JSON.stringify(tab));
+        }else {
+            collection.addMedia(media);
+            console.log(collection.collection);
+        }
     });
 
 
 });
 
 /////////////////////////////////////////////////////////////LocalStorageAffichage
-if (localStorage.getItem('Collection') !== null) {
+
     let data = localStorage.getItem("Collection");
     console.log(localStorage.getItem("Collection"));
 
@@ -52,7 +58,7 @@ if (localStorage.getItem('Collection') !== null) {
     });
     console.log(txt);
     document.getElementById("list").innerHTML = txt;
-}
+
 /////////////////////////////////////////////////////////////LocalStorageAffichage
 document.addEventListener("click", function (e) {
     if (e.target.className === "btn-delete") {
