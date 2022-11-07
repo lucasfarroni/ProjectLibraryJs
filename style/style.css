@@ -15,6 +15,11 @@
     box-shadow: 0 0 5px #ccc;
     align-items: center;
 }
+.navbar-nav mr-auto{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
 
 .card{
     margin-left: 20px;
