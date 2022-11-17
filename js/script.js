@@ -2,7 +2,7 @@ import {Collection} from "../Controller/Collection.js";
 import {Media} from "../Controller/Media.js";
 
 let collection = new Collection();
-let tab = [];
+
 //collection.addMedia(media);
 //console.log(collection.collection);
 
@@ -32,21 +32,15 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
             '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
             '</div>';
 
-        if (localStorage.getItem('Collection') !== null) {
-            tab = JSON.parse(localStorage.getItem('Collection'));
-            tab.push(media);
-            localStorage.setItem("Collection", JSON.stringify(tab));
-        }else {
-            collection.addMedia(media);
-            console.log(collection.collection);
-        }
+        collection.addMedia(media);
+        console.log(collection.collection);
     });
 
 
 });
 
 /////////////////////////////////////////////////////////////LocalStorageAffichage
-
+if (localStorage.getItem('Collection') !== null) {
     let data = localStorage.getItem("Collection");
     console.log(localStorage.getItem("Collection"));
 
@@ -58,6 +52,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
     });
     console.log(txt);
     document.getElementById("list").innerHTML = txt;
+<<<<<<< HEAD
 
 
 document.getElementById('trie').addEventListener('click', function () {
@@ -111,6 +106,9 @@ function deleteChild(element) {
 
 
 
+=======
+}
+>>>>>>> parent of 85ab4b0 (localStorage add ok)
 /////////////////////////////////////////////////////////////LocalStorageAffichage
 
 document.addEventListener("click", function (e) {
