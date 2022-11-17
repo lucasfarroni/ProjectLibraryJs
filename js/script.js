@@ -69,7 +69,60 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
     console.log(txt);
     document.getElementById("list").innerHTML = txt;
 
+
+document.getElementById('trie').addEventListener('click', function () {
+    console.log("trie");
+    const card = document.querySelectorAll('.card');
+    console.log(card);
+    const cardArray = Array.from(card);
+    if (document.getElementById('trie').value == "nom") {
+        console.log("trie par nom");
+        let cardSortByName = cardArray.sort((a, b) => {
+            const nameA = a.getAttribute("name");
+            const nameB = b.getAttribute("name");
+            console.log(nameA);
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+
+            // names must be equal
+            return 0;
+        });
+
+        let containerList = document.getElementById('containerList');
+
+        deleteChild(containerList);
+
+
+        for (i = 0; i < cardSortByName.length; i++) {
+            console.log(cardSortByName[i].getAttribute("name"));
+            containerList.append(cardSortByName[i]);
+        }
+
+    }
+
+
+});
+
+
+function deleteChild(element) {
+    let e = element;
+
+    //e.firstElementChild can be used.
+    let child = e.lastElementChild;
+    while (child) {
+        e.removeChild(child);
+        child = e.lastElementChild;
+    }
+}
+
+
+
 /////////////////////////////////////////////////////////////LocalStorageAffichage
+
 document.addEventListener("click", function (e) {
     if (e.target.className === "btn-delete") {
         if (confirm("Voulez vous vraiment supprimer ce média ?") == true) {
@@ -81,7 +134,6 @@ document.addEventListener("click", function (e) {
 
 document.addEventListener("click", function (e) {
     if (e.target.id === "All") {
-        console.log("All");
         const card = document.querySelectorAll('.card');
         card.forEach(function (card) {
             card.style.display = "block";
