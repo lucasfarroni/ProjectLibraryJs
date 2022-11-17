@@ -5,6 +5,7 @@ export class Media {
         this.rating = rating;
         this.img = img;
         this.descritpion = descritpion;
+
     }
     set setTitle(title) {
         this._title = title;

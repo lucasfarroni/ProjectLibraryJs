@@ -11,6 +11,7 @@ let tab = [];
 
 let i = 0;
 
+
 document.getElementById('btnAddMedia').addEventListener('click', function () {
 
     document.getElementById('form').style.display = "block";
@@ -53,13 +54,13 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
 
     let dataParse = JSON.parse(data);
     let txt = "";
-    let p = 0;
+
     dataParse.forEach((e) => {
         txt +=
             `<div class="card" "` +  e.title + `" style="width: 18rem;">` +
             '<img class="card-img-top" src="#" alt="Card image cap">' +
             '<div class="card-body">' +
-            '<h5 class="card-title">' +  e.title + '</h5>' +
+            '<h5 class="card-title" id="titleOfMedia">' +  e.title + '</h5>' +
             '<p class="card-text">' +  e.releaseDate + '</p>' +
             '<p class="card-text">' +  e.descritpion + '</p>' +
             '<a href="#" class="btn btn-primary">Go somewhere</a>' +
@@ -73,7 +74,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
 document.getElementById('trie').addEventListener('click', function () {
     console.log("trie");
     const card = document.querySelectorAll('.card');
-    console.log(card);
+
     const cardArray = Array.from(card);
     if (document.getElementById('trie').value == "nom") {
         console.log("trie par nom");
@@ -126,57 +127,62 @@ function deleteChild(element) {
 document.addEventListener("click", function (e) {
     if (e.target.className === "btn-delete") {
         if (confirm("Voulez vous vraiment supprimer ce média ?") == true) {
+            let Title = e.target.parentNode.querySelector("h5").textContent;
+            let data = JSON.parse(localStorage.getItem("Collection"));
+            let index = data.findIndex((e) => e.title === Title);
+            data.splice(index, 1);
+            localStorage.setItem("Collection", JSON.stringify(data));
             e.target.parentNode.remove();
         }
     }
-
 });
 
+
 document.addEventListener("click", function (e) {
-    if (e.target.id === "All") {
-        const card = document.querySelectorAll('.card');
-        card.forEach(function (card) {
-            card.style.display = "block";
-        });
-    }
-    if (e.target.id === 'Album') {
-        console.log("Album");
-        const card = document.querySelectorAll('.card');
-        card.forEach(function (card) {
-            if (card.getAttribute('name') != 'Album') {
-                card.style.display = "none";
-            } else {
-                card.style.display = "block";
-            }
-        });
-    }
-    if (e.target.id === 'Game') {
-        const card = document.querySelectorAll('.card');
-        card.forEach(function (card) {
-            if (card.getAttribute('name') != 'Game') {
-                card.style.display = "none";
-            } else {
-                card.style.display = "block";
-            }
-        });
+if (e.target.id === "All") {
+const card = document.querySelectorAll('.card');
+card.forEach(function (card) {
+card.style.display = "block";
+});
+}
+if (e.target.id === 'Album') {
+console.log("Album");
+const card = document.querySelectorAll('.card');
+card.forEach(function (card) {
+if (card.getAttribute('name') != 'Album') {
+    card.style.display = "none";
+} else {
+    card.style.display = "block";
+}
+});
+}
+if (e.target.id === 'Game') {
+const card = document.querySelectorAll('.card');
+card.forEach(function (card) {
+if (card.getAttribute('name') != 'Game') {
+    card.style.display = "none";
+} else {
+    card.style.display = "block";
+}
+});
 
-    }
-    if (e.target.id === 'Movie') {
-        const card = document.querySelectorAll('.card');
-        card.forEach(function (card) {
-            if (card.getAttribute('name') != 'Movie') {
-                card.style.display = "none";
-            } else {
-                card.style.display = "block";
-            }
-        });
+}
+if (e.target.id === 'Movie') {
+const card = document.querySelectorAll('.card');
+card.forEach(function (card) {
+if (card.getAttribute('name') != 'Movie') {
+    card.style.display = "none";
+} else {
+    card.style.display = "block";
+}
+});
 
 
-    }
+}
 });
 
 
 // Rating Initialization
 $(document).ready(function () {
-    $('#rateMe2').mdbRate();
+$('#rateMe2').mdbRate();
 });
