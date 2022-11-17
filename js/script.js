@@ -22,25 +22,50 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
         let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img",document.getElementById('subject').value);
         document.getElementById('form').style.display = "none";
 
-        document.getElementById('containerList').innerHTML +=
+        console.log(localStorage.getItem('Collection')=== null);
+        if (localStorage.getItem('Collection')!== null ) {
 
-            `<div class="card" "` +  media.title + `" style="width: 18rem;">` +
-            '<img class="card-img-top" src="#" alt="Card image cap">' +
-            '<div class="card-body">' +
-            '<h5 class="card-title">' +  media.title + '</h5>' +
-            '<p class="card-text">' +  media.releaseDate + '</p>' +
-            '<p class="card-text">' +  media.descritpion + '</p>' +
-            '<a href="#" class="btn btn-primary">Go somewhere</a>' +
-            '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-            '</div>';
-
-        if (localStorage.getItem('Collection') !== null) {
             tab = JSON.parse(localStorage.getItem('Collection'));
-            tab.push(media);
-            localStorage.setItem("Collection", JSON.stringify(tab));
-        }else {
+            console.log(tab);
+            let similar = media.title;
+            let index = tab.findIndex((media) => media.title === similar);
+            console.log(index);
+            if (index === -1) {
+                tab.push(media);
+                localStorage.setItem('Collection', JSON.stringify(tab));
+                console.log("already in");
+
+                    document.getElementById('containerList').innerHTML +=
+
+                        `<div class="card" "` +  media.title + `" style="width: 18rem;">` +
+                        '<img class="card-img-top" src="#" alt="Card image cap">' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title">' +  media.title + '</h5>' +
+                        '<p class="card-text">' +  media.releaseDate + '</p>' +
+                        '<p class="card-text">' +  media.descritpion + '</p>' +
+                        '<a href="#" class="btn btn-primary">Go somewhere</a>' +
+                        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+                        '</div>';
+            } else {
+                alert("title exist in array modify the title for add this media");
+            }
+
+        }else  {
+            document.getElementById('containerList').innerHTML +=
+
+                `<div class="card" "` +  media.title + `" style="width: 18rem;">` +
+                '<img class="card-img-top" src="#" alt="Card image cap">' +
+                '<div class="card-body">' +
+                '<h5 class="card-title">' +  media.title + '</h5>' +
+                '<p class="card-text">' +  media.releaseDate + '</p>' +
+                '<p class="card-text">' +  media.descritpion + '</p>' +
+                '<a href="#" class="btn btn-primary">Go somewhere</a>' +
+                '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+                '</div>';
+
+            console.log("test");
             collection.addMedia(media);
-            console.log(collection.collection);
+
         }
     });
 
@@ -181,8 +206,3 @@ if (card.getAttribute('name') != 'Movie') {
 }
 });
 
-
-// Rating Initialization
-$(document).ready(function () {
-$('#rateMe2').mdbRate();
-});
