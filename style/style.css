@@ -1,6 +1,14 @@
 #btnAddMedia{
     margin-left: 1%;
 }
+
+#list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    padding: 0;
+}
 #containerList{
     display: flex;
     flex-direction: row;

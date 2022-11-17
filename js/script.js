@@ -1,3 +1,14 @@
+import {Collection} from "../Controller/Collection.js";
+import {Media} from "../Controller/Media.js";
+
+let collection = new Collection();
+let tab = [];
+//collection.addMedia(media);
+//console.log(collection.collection);
+
+
+
+
 let i = 0;
 
 document.getElementById('btnAddMedia').addEventListener('click', function () {
@@ -7,23 +18,56 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
     document.getElementById('btnSubmit').addEventListener('click', function () {
         // i++;
 
-        console.log("test");
+        let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img",document.getElementById('subject').value);
         document.getElementById('form').style.display = "none";
-        name = document.getElementById('title').value;
+
         document.getElementById('containerList').innerHTML +=
 
-            `<div class="card" name ="` + name + `" style="width: 18rem;">` +
+            `<div class="card" "` +  media.title + `" style="width: 18rem;">` +
             '<img class="card-img-top" src="#" alt="Card image cap">' +
             '<div class="card-body">' +
-            '<h5 class="card-title">' + name + '</h5>' +
-            '<p class="card-text">Some quick example text to build on the card title and make up the bulk of thecards content.</p>' +
+            '<h5 class="card-title">' +  media.title + '</h5>' +
+            '<p class="card-text">' +  media.releaseDate + '</p>' +
+            '<p class="card-text">' +  media.descritpion + '</p>' +
             '<a href="#" class="btn btn-primary">Go somewhere</a>' +
             '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
             '</div>';
+
+        if (localStorage.getItem('Collection') !== null) {
+            tab = JSON.parse(localStorage.getItem('Collection'));
+            tab.push(media);
+            localStorage.setItem("Collection", JSON.stringify(tab));
+        }else {
+            collection.addMedia(media);
+            console.log(collection.collection);
+        }
     });
 
 
 });
+
+/////////////////////////////////////////////////////////////LocalStorageAffichage
+
+    let data = localStorage.getItem("Collection");
+    console.log(localStorage.getItem("Collection"));
+
+    let dataParse = JSON.parse(data);
+    let txt = "";
+    let p = 0;
+    dataParse.forEach((e) => {
+        txt +=
+            `<div class="card" "` +  e.title + `" style="width: 18rem;">` +
+            '<img class="card-img-top" src="#" alt="Card image cap">' +
+            '<div class="card-body">' +
+            '<h5 class="card-title">' +  e.title + '</h5>' +
+            '<p class="card-text">' +  e.releaseDate + '</p>' +
+            '<p class="card-text">' +  e.descritpion + '</p>' +
+            '<a href="#" class="btn btn-primary">Go somewhere</a>' +
+            '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+            '</div>';
+    });
+    console.log(txt);
+    document.getElementById("list").innerHTML = txt;
 
 
 document.getElementById('trie').addEventListener('click', function () {
@@ -75,6 +119,9 @@ function deleteChild(element) {
     }
 }
 
+
+
+/////////////////////////////////////////////////////////////LocalStorageAffichage
 
 document.addEventListener("click", function (e) {
     if (e.target.className === "btn-delete") {
