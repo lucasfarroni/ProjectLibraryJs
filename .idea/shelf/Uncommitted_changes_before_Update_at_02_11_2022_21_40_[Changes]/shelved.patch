@@ -1,0 +1,29 @@
+Index: js/script.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/js/script.js b/js/script.js
+--- a/js/script.js	
++++ b/js/script.js	
+@@ -1,3 +1,12 @@
++import {Collection} from "/Controller/Collection.js";
++import {Media} from "/Controller/Media.js";
++
++let collection = new Collection();
++let media = new Media("yolo", "2020", "5", "img");
++collection.addMedia(media);
++console.log(collection);
++
++
+ 
+ document.getElementById('btnAddMedia').addEventListener('click',function () {
+ 
+@@ -27,4 +36,5 @@
+ // Rating Initialization
+ $(document).ready(function() {
+     $('#rateMe2').mdbRate();
+-});
+\ No newline at end of file
++});
++
