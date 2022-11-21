@@ -6,9 +6,40 @@ let tab = [];
 //collection.addMedia(media);
 //console.log(collection.collection);
 
+/*function apiCall(movieTitle){
 
+    let url = "http://img.omdbapi.com/?apikey=3ace04ab"+ movieTitle;
+    console.log(url);
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
 
+            let media = new Media(data.Title, data.Year, data.Poster, data.imdbID);
+            console.log(media);
 
+        })
+        .catch(error => console.log(error));
+}
+let mediaTest = new Media("Matrix", "test", "test", "test");
+apiCall(mediaTest.title);
+console.log("ok appel api");*/
+
+async function apiCall(movieTitle){
+    let options = {
+        method: 'GET'
+    };
+
+    return await fetch("http://img.omdbapi.com/?apikey=3ace04ab"+ movieTitle, options)
+        .then(response =>{
+            console.log(response);
+            return response.json()
+        })
+        .then(data => {
+           return data;
+        })
+        .catch(error => console.log(error));
+}
+apiCall("Matrix");
 let i = 0;
 
 

@@ -1,8 +1,8 @@
 import {Media} from "./Media";
 
 class Movie extends Media {
- constructor(director,actors,duration,plot, runTime, title, releaseDate, rating, img,description) {
-     super(runTime, title, releaseDate, rating, img,description);
+ constructor(director,actors,duration,plot, title, releaseDate, rating, img,description) {
+     super( title, releaseDate, rating, img,description);
         this.director = director;
         this.actors = actors;
         this.duration = duration;
