@@ -29,7 +29,7 @@ async function apiCall(movieTitle){
         method: 'GET'
     };
 
-    return await fetch("http://img.omdbapi.com/?apikey=3ace04ab"+ movieTitle, options)
+    return await fetch("http://omdbapi.com/?apikey=3ace04ab&t="+ movieTitle, options)
         .then(response =>{
             console.log(response);
             return response.json()
