@@ -3,32 +3,12 @@ import {Media} from "../Controller/Media.js";
 
 let collection = new Collection();
 let tab = [];
-//collection.addMedia(media);
-//console.log(collection.collection);
 
-/*function apiCall(movieTitle){
-
-    let url = "http://img.omdbapi.com/?apikey=3ace04ab"+ movieTitle;
-    console.log(url);
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-
-            let media = new Media(data.Title, data.Year, data.Poster, data.imdbID);
-            console.log(media);
-
-        })
-        .catch(error => console.log(error));
-}
-let mediaTest = new Media("Matrix", "test", "test", "test");
-apiCall(mediaTest.title);
-console.log("ok appel api");*/
 
 async function apiCall(movieTitle){
     let options = {
         method: 'GET'
     };
-
     return await fetch("http://omdbapi.com/?apikey=3ace04ab&t="+ movieTitle, options)
         .then(response =>{
             console.log(response);
@@ -40,10 +20,17 @@ async function apiCall(movieTitle){
         .catch(error => console.log(error));
 }
 apiCall("Matrix");
+
 let i = 0;
 
 
 document.getElementById('btnAddMedia').addEventListener('click', function () {
+    document.getElementById('type').addEventListener('click', function () {
+
+        if(document.getElementById('type').value === "Album-btn"){
+            console.log("album");
+        }
+    });
 
     document.getElementById('form').style.display = "block";
 
@@ -125,6 +112,9 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
     });
     console.log(txt);
     document.getElementById("list").innerHTML = txt;
+
+
+
 
 
 document.getElementById('trie').addEventListener('click', function () {

@@ -68,18 +68,13 @@
             <div class="DateInput"><label for="date">Release Date :</label><input type="date" id="date" rows="1"
                                                                                   cols="20"></div>
 
-            <div class="DropCLick"><label for="dropdown">Type</label>
-                <div class="dropdown" id="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <button class="dropdown-item" id="Album-btn" type="button">Album</button>
-                        <button class="dropdown-item" id="Game-btn" type="button">Game</button>
-                        <button class="dropdown-item" id="Movie-btn" type="button">Movie</button>
-                    </div>
-                </div>
-            </div>
+
+            <h4 class="nav-link">type</h4>
+            <select class="nav-link" name="typeCateg" id="type">
+                <option value="Album-btn">Album</option>
+                <option value="Game-btn">Game</option>
+                <option value="Movie-btn">Movie</option>
+            </select>
 
             <div class="descript">
                 <label for="subject">Description</label>
