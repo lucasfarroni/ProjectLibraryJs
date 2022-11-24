@@ -3,8 +3,15 @@ import {Media} from "../Controller/Media.js";
 
 let collection = new Collection();
 let tab = [];
+let i = 0;
+let typeOfMedia = "";
 
-
+/**
+ * @name apiCall
+ * @description fetch the data from the API omdbapi.com
+ * @param {string} movieTitle
+ * @returns {Promise<any>}
+ */
 async function apiCall(movieTitle){
     let options = {
         method: 'GET'
@@ -20,11 +27,33 @@ async function apiCall(movieTitle){
         })
         .catch(error => console.log(error));
 }
-//apiCall("Matrix");
+/*
+function getTheTypeOfMedia(type){// fonction à refaire pour recup le type de media
+    switch (type.type) {
 
-let i = 0;
-let typeOfMedia = "";
+        case "Album-btn":
+            console.log("album");
+            typeOfMedia = "Album";
+            break;
+        case "Game-btn":
+            console.log("Game");
+            typeOfMedia = "Game";
+            break;
+        case "Movie-btn":
+            console.log("livre");
+            typeOfMedia = "Movie";
+            break;
+    }
+    return typeOfMedia;
+}*/
 
+
+
+
+/**
+ * @name addMedia
+ * @description add a media to the collection
+ */
 document.getElementById('btnAddMedia').addEventListener('click', function () {
     document.getElementById('type').addEventListener('click', function () {
 
@@ -33,21 +62,21 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
         }*/
         switch (document.getElementById('type').value) {
 
-            case "Album-btn":
-                console.log("album");
-                typeOfMedia = "Album";
-                break;
-            case "Game-btn":
-                console.log("Game");
-                typeOfMedia = "Game";
-                break;
-            case "Movie-btn":
-                console.log("livre");
-                typeOfMedia = "Movie";
-                break;
-        }
-        return typeOfMedia;
-    });
+        case "Album-btn":
+            console.log("album");
+            typeOfMedia = "Album";
+            break;
+        case "Game-btn":
+            console.log("Game");
+            typeOfMedia = "Game";
+            break;
+        case "Movie-btn":
+            console.log("livre");
+            typeOfMedia = "Movie";
+            break;
+    }
+    return typeOfMedia;
+});
 
     document.getElementById('form').style.display = "block";
 
