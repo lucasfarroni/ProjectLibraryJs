@@ -11,30 +11,47 @@ async function apiCall(movieTitle){
     };
     return await fetch("http://omdbapi.com/?apikey=3ace04ab&t="+ movieTitle, options)
         .then(response =>{
-            console.log(response);
             return response.json()
         })
         .then(data => {
+            console.log(data.Poster);
+
            return data;
         })
         .catch(error => console.log(error));
 }
-apiCall("Matrix");
+//apiCall("Matrix");
 
 let i = 0;
-
+let typeOfMedia = "";
 
 document.getElementById('btnAddMedia').addEventListener('click', function () {
     document.getElementById('type').addEventListener('click', function () {
 
-        if(document.getElementById('type').value === "Album-btn"){
+        /*if(document.getElementById('type').value === "Album-btn"){
             console.log("album");
+        }*/
+        switch (document.getElementById('type').value) {
+
+            case "Album-btn":
+                console.log("album");
+                typeOfMedia = "Album";
+                break;
+            case "Game-btn":
+                console.log("Game");
+                typeOfMedia = "Game";
+                break;
+            case "Movie-btn":
+                console.log("livre");
+                typeOfMedia = "Movie";
+                break;
         }
+        return typeOfMedia;
     });
 
     document.getElementById('form').style.display = "block";
 
-    document.getElementById('btnSubmit').addEventListener('click', function () {
+    document.getElementById('btnSubmit').addEventListener('click', async function () {
         // i++;
 
         let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img",document.getElementById('subject').value);
@@ -51,12 +68,15 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
             if (index === -1) {
                 tab.push(media);
                 localStorage.setItem('Collection', JSON.stringify(tab));
-                console.log("already in");
+                console.log("ok ya r dans la tab");
+                const a = await apiCall(media.title);
+
+                console.log(a);
 
                     document.getElementById('containerList').innerHTML +=
 
                         `<div class="card" "` +  media.title + `" style="width: 18rem;">` +
-                        '<img class="card-img-top" src="#" alt="Card image cap">' +
+                        `<img class="card-img-top" src="` + a.Poster + `" alt="Card image cap">` +
                         '<div class="card-body">' +
                         '<h5 class="card-title">' +  media.title + '</h5>' +
                         '<p class="card-text">' +  media.releaseDate + '</p>' +
