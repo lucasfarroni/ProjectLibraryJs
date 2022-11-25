@@ -58,7 +58,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
         document.getElementById('form').style.display = "none";
     });
 
-    document.getElementById('type').addEventListener('click', function () {
+    /*document.getElementById('type').addEventListener('click', function () {
 
         switch (document.getElementById('type').value) {
 
@@ -76,15 +76,12 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
                 break;
         }
         return typeOfMedia;
-    });
+    });*/
 
     document.getElementById('form').style.display = "block";
 
-
-
     document.getElementById('btnSubmit').addEventListener('click', async function () {
         // i++;
-
         let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value);
         document.getElementById('form').style.display = "none";
 
@@ -98,8 +95,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
             console.log(index);
 
             if (index === -1) {
-
-                console.log("ok ya r dans la tab");
+                console.log("ok le titre pas dans la table");
                 const a = await apiCall(media.title);
                 console.log(a);
                 media.img = a.Poster;
@@ -107,7 +103,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
                 tab.push(media);
                 localStorage.setItem('Collection', JSON.stringify(tab));
 
-                document.getElementById('containerList').innerHTML +=
+                document.getElementById('list').innerHTML +=
 
                     `<div class="card" "` + media.title + `" style="width: 18rem;">` +
                     `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
@@ -115,7 +111,6 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
                     '<h5 class="card-title">' + media.title + '</h5>' +
                     '<p class="card-text">' + media.releaseDate + '</p>' +
                     '<p class="card-text">' + media.descritpion + '</p>' +
-                    '<a href="#" class="btn btn-primary">Go somewhere</a>' +
                     '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
                     `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
                     '</div>';
@@ -125,7 +120,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
             }
 
         } else {
-            document.getElementById('containerList').innerHTML +=
+            document.getElementById('list').innerHTML +=
 
                 `<div class="card" "` + media.title + `" style="width: 18rem;">` +
                 `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
@@ -133,7 +128,6 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
                 '<h5 class="card-title">' + media.title + '</h5>' +
                 '<p class="card-text">' + media.releaseDate + '</p>' +
                 '<p class="card-text">' + media.descritpion + '</p>' +
-                '<a href="#" class="btn btn-primary">Go somewhere</a>' +
                 '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
                 `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
                 '</div>';
@@ -150,93 +144,25 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
 
 let data = localStorage.getItem("Collection");
 console.log(localStorage.getItem("Collection"));
-function affichage(type) {
-    let data = localStorage.getItem("Collection");
-    if (data !== null) {
-        let dataParse = JSON.parse(data);
-        console.log(dataParse);
-        let txt = "";
 
-        console.log("All");
-        if (type === "All") {
-            dataParse.forEach((e) => {
-                txt +=
-                    `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-                    `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-                    '<div class="card-body">' +
-                    '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-                    '<p class="card-text">' + e.releaseDate + '</p>' +
-                    '<p class="card-text">' + e.descritpion + '</p>' +
-                    '<a href="#" class="btn btn-primary">Go somewhere</a>' +
-                    '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                    '</div>';
-            });
-        }
+let dataParse = JSON.parse(data);
+let txt = "";
 
+dataParse.forEach((e) => {
+    txt +=
+        `<div class="card" "` + e.title + `" style="width: 18rem;">` +
+        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
+        '<div class="card-body">' +
+        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
+        '<p class="card-text">' + e.releaseDate + '</p>' +
+        '<p class="card-text">' + e.descritpion + '</p>' +
+        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+        `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
+        '</div>';
+});
+console.log(txt);
+document.getElementById("list").innerHTML = txt;
 
-        if (type === "Album") {
-            dataParse.forEach((e) => {
-                if (e.type === "Album-btn") {
-                    txt +=
-                        `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-                        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-                        '<div class="card-body">' +
-                        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-                        '<p class="card-text">' + e.releaseDate + '</p>' +
-                        '<p class="card-text">' + e.descritpion + '</p>' +
-                        '<a href="#" class="btn btn-primary">Go somewhere</a>' +
-                        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                        '</div>';
-                }
-            });
-
-
-        }
-
-        if (type === "Game") {
-            dataParse.forEach((e) => {
-                if (e.type === "Game-btn") {
-                    txt +=
-                        `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-                        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-                        '<div class="card-body">' +
-                        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-                        '<p class="card-text">' + e.releaseDate + '</p>' +
-                        '<p class="card-text">' + e.descritpion + '</p>' +
-                        '<a href="#" class="btn btn-primary">Go somewhere</a>' +
-                        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                        '</div>';
-                }
-            });
-        }
-
-        if (type === "Movie") {
-
-            dataParse.forEach((e) => {
-                console.log(e.type)
-                if (e.type === "Movie-btn") {
-                    txt +=
-                        `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-                        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-                        '<div class="card-body">' +
-                        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-                        '<p class="card-text">' + e.releaseDate + '</p>' +
-                        '<p class="card-text">' + e.descritpion + '</p>' +
-                        '<a href="#" class="btn btn-primary">Go somewhere</a>' +
-                        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                        '</div>';
-                }
-            });
-
-
-        }
-
-        console.log(txt);
-        document.getElementById("list").innerHTML = txt;
-    }
-
-
-};
 
 document.getElementById('trie').addEventListener('click', function () {
     console.log("trie");
@@ -305,45 +231,19 @@ document.addEventListener("click", function (e) {
 
 
 document.addEventListener("click", function (e) {
+
     if (e.target.id === "All") {
-        const card = document.querySelectorAll('.card');
-        card.forEach(function (card) {
-            card.style.display = "block";
-        });
+        affichage("All");
     }
+
     if (e.target.id === 'Album') {
-        console.log("Album");
-        const card = document.querySelectorAll('.card');
-        card.forEach(function (card) {
-            if (card.getAttribute('name') != 'Album') {
-                card.style.display = "none";
-            } else {
-                card.style.display = "block";
-            }
-        });
+        affichage("Album");
     }
     if (e.target.id === 'Game') {
-        const card = document.querySelectorAll('.card');
-        card.forEach(function (card) {
-            if (card.getAttribute('name') != 'Game') {
-                card.style.display = "none";
-            } else {
-                card.style.display = "block";
-            }
-        });
-
+        affichage("Game");
     }
     if (e.target.id === 'Movie') {
-        const card = document.querySelectorAll('.card');
-        card.forEach(function (card) {
-            if (card.getAttribute('name') != 'Movie') {
-                card.style.display = "none";
-            } else {
-                card.style.display = "block";
-            }
-        });
-
-
+        affichage("Movie");
     }
 });
 

@@ -26,7 +26,8 @@
             <li class="nav-item">
                 <a class="nav-link" id="Movie" href="#">Movie</a>
             </li>
-            <li class="nav-item" id="typeItem">
+            <li class="nav-item">
+                <h4 class="nav-link">Trié par :</h4>
                 <select class="nav-link" name="trie" id="trie">
                     <option value="pas_trie">Non trié</option>
                     <option value="date_de_sortie">Date de Sortie</option>
@@ -34,52 +35,63 @@
                 </select>
             </li>
         </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
         <button type="button" class="btn btn-outline-info" id="btnAddMedia">add Media</button>
     </div>
 </nav>
 <div class="container" id="containerList">
 
+
+    <div id="form">
+        <div class="popUp">
+
+            <div class="form-group">
+                <label for="title">title</label>
+                <input type="text" class="form-control" id="title" placeholder="Example input">
+            </div>
+
+            <div class="form-group">
+                <label for="formGroupExample">Example label</label>
+                <input type="text" class="form-control" id="formGroupExample" placeholder="Example input">
+            </div>
+            <label for="basic-url">image</label>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">https://</span>
+                </div>
+                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+            </div>
+            <div class="DateInput"><label for="date">Release Date :</label><input type="date" id="date" rows="1"
+                                                                                  cols="20"></div>
+
+
+            <h4 class="nav-link">type</h4>
+            <select class="nav-link" name="typeCateg" id="type">
+                <option value="Album-btn">Album</option>
+                <option value="Game-btn">Game</option>
+                <option value="Movie-btn">Movie</option>
+            </select>
+
+            <div class="descript">
+                <label for="subject">Description</label>
+                <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-danger" id="btnSubmit">submit</button>
+        <button type="button" class="btn btn-primary" id="closeForm">close</button>
+
+    </div>
+</div>
 <div id="list"></div>
 
-<div id="form">
-    <div class="popUp">
-        <div class="form-group">
-            <label for="title">title</label>
-            <input type="text" class="form-control" id="title" placeholder="Example input">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExample">Example label</label>
-            <input type="text" class="form-control" id="formGroupExample" placeholder="Example input">
-        </div>
-        <label for="basic-url">image</label>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon3">https://</span>
-            </div>
-            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-        </div>
-        <div class="DateInput"><label for="date">Release Date :</label><input type="date" id="date" rows="1"
-                                                                              cols="20"></div>
 
 
-        <h4 class="nav-link">type</h4>
-        <select class="nav-link" name="typeCateg" id="type">
-            <option value="Album-btn">Album</option>
-            <option value="Game-btn">Game</option>
-            <option value="Movie-btn">Movie</option>
-        </select>
 
-        <div class="descript">
-            <label for="subject">Description</label>
-            <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
-        </div>
-    </div>
-
-    <button type="button" class="btn btn-danger" id="btnSubmit">submit</button>
-    <button type="button" class="btn btn-primary" id="closeForm">close</button>
-
-</div>
-</div>
 <script type="module" src="js/script.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
