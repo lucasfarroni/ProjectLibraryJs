@@ -150,9 +150,12 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
 
 let data = localStorage.getItem("Collection");
 console.log(localStorage.getItem("Collection"));
-
-let dataParse = JSON.parse(data);
-let txt = "";
+function affichage(type) {
+    let data = localStorage.getItem("Collection");
+    if (data !== null) {
+        let dataParse = JSON.parse(data);
+        console.log(dataParse);
+        let txt = "";
 
         console.log("All");
         if (type === "All") {
@@ -231,21 +234,9 @@ let txt = "";
         console.log(txt);
         document.getElementById("list").innerHTML = txt;
     }
-dataParse.forEach((e) => {
-    txt +=
-        `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-        '<div class="card-body">' +
-        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-        '<p class="card-text">' + e.releaseDate + '</p>' +
-        '<p class="card-text">' + e.descritpion + '</p>' +
-        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-        `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-        '</div>';
-});
-console.log(txt);
-document.getElementById("list").innerHTML = txt;
 
+
+};
 
 document.getElementById('trie').addEventListener('click', function () {
     console.log("trie");
