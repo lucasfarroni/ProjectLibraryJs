@@ -12,21 +12,22 @@ let typeOfMedia = "";
  * @param {string} movieTitle
  * @returns {Promise<any>}
  */
-async function apiCall(movieTitle){
+async function apiCall(movieTitle) {
     let options = {
         method: 'GET'
     };
-    return await fetch("http://omdbapi.com/?apikey=3ace04ab&t="+ movieTitle, options)
-        .then(response =>{
+    return await fetch("http://omdbapi.com/?apikey=3ace04ab&t=" + movieTitle, options)
+        .then(response => {
             return response.json()
         })
         .then(data => {
             console.log(data.Poster);
 
-           return data;
+            return data;
         })
         .catch(error => console.log(error));
 }
+
 /*
 function getTheTypeOfMedia(type){// fonction à refaire pour recup le type de media
     switch (type.type) {
@@ -48,46 +49,47 @@ function getTheTypeOfMedia(type){// fonction à refaire pour recup le type de me
 }*/
 
 
-
-
 /**
  * @name addMedia
  * @description add a media to the collection
  */
 document.getElementById('btnAddMedia').addEventListener('click', function () {
+    document.getElementById('closeForm').addEventListener('click', function () {
+        document.getElementById('form').style.display = "none";
+    });
+
     document.getElementById('type').addEventListener('click', function () {
 
-        /*if(document.getElementById('type').value === "Album-btn"){
-            console.log("album");
-        }*/
         switch (document.getElementById('type').value) {
 
-        case "Album-btn":
-            console.log("album");
-            typeOfMedia = "Album";
-            break;
-        case "Game-btn":
-            console.log("Game");
-            typeOfMedia = "Game";
-            break;
-        case "Movie-btn":
-            console.log("livre");
-            typeOfMedia = "Movie";
-            break;
-    }
-    return typeOfMedia;
-});
+            case "Album-btn":
+                console.log("album");
+                typeOfMedia = "Album";
+                break;
+            case "Game-btn":
+                console.log("Game");
+                typeOfMedia = "Game";
+                break;
+            case "Movie-btn":
+                console.log("livre");
+                typeOfMedia = "Movie";
+                break;
+        }
+        return typeOfMedia;
+    });
 
     document.getElementById('form').style.display = "block";
+
+
 
     document.getElementById('btnSubmit').addEventListener('click', async function () {
         // i++;
 
-        let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img",document.getElementById('subject').value);
+        let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value);
         document.getElementById('form').style.display = "none";
 
-        console.log(localStorage.getItem('Collection')=== null);
-        if (localStorage.getItem('Collection')!== null ) {
+        console.log(localStorage.getItem('Collection') === null);
+        if (localStorage.getItem('Collection') !== null) {
 
             tab = JSON.parse(localStorage.getItem('Collection'));
             console.log(tab);
@@ -95,37 +97,39 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
             let index = tab.findIndex((media) => media.title === similar);
             console.log(index);
             if (index === -1) {
-                tab.push(media);
-                localStorage.setItem('Collection', JSON.stringify(tab));
+
                 console.log("ok ya r dans la tab");
                 const a = await apiCall(media.title);
-
                 console.log(a);
+                media.img = a.Poster;
+                tab.push(media);
+                localStorage.setItem('Collection', JSON.stringify(tab));
 
-                    document.getElementById('containerList').innerHTML +=
+                document.getElementById('containerList').innerHTML +=
 
-                        `<div class="card" "` +  media.title + `" style="width: 18rem;">` +
-                        `<img class="card-img-top" src="` + a.Poster + `" alt="Card image cap">` +
-                        '<div class="card-body">' +
-                        '<h5 class="card-title">' +  media.title + '</h5>' +
-                        '<p class="card-text">' +  media.releaseDate + '</p>' +
-                        '<p class="card-text">' +  media.descritpion + '</p>' +
-                        '<a href="#" class="btn btn-primary">Go somewhere</a>' +
-                        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                        '</div>';
+                    `<div class="card" "` + media.title + `" style="width: 18rem;">` +
+                    `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
+                    '<div class="card-body">' +
+                    '<h5 class="card-title">' + media.title + '</h5>' +
+                    '<p class="card-text">' + media.releaseDate + '</p>' +
+                    '<p class="card-text">' + media.descritpion + '</p>' +
+                    '<a href="#" class="btn btn-primary">Go somewhere</a>' +
+                    '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+                    '</div>';
+
             } else {
                 alert("title exist in array modify the title for add this media");
             }
 
-        }else  {
+        } else {
             document.getElementById('containerList').innerHTML +=
 
-                `<div class="card" "` +  media.title + `" style="width: 18rem;">` +
-                '<img class="card-img-top" src="#" alt="Card image cap">' +
+                `<div class="card" "` + media.title + `" style="width: 18rem;">` +
+                `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
                 '<div class="card-body">' +
-                '<h5 class="card-title">' +  media.title + '</h5>' +
-                '<p class="card-text">' +  media.releaseDate + '</p>' +
-                '<p class="card-text">' +  media.descritpion + '</p>' +
+                '<h5 class="card-title">' + media.title + '</h5>' +
+                '<p class="card-text">' + media.releaseDate + '</p>' +
+                '<p class="card-text">' + media.descritpion + '</p>' +
                 '<a href="#" class="btn btn-primary">Go somewhere</a>' +
                 '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
                 '</div>';
@@ -136,34 +140,30 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
         }
     });
 
-
 });
 
 /////////////////////////////////////////////////////////////LocalStorageAffichage
 
-    let data = localStorage.getItem("Collection");
-    console.log(localStorage.getItem("Collection"));
+let data = localStorage.getItem("Collection");
+console.log(localStorage.getItem("Collection"));
 
-    let dataParse = JSON.parse(data);
-    let txt = "";
+let dataParse = JSON.parse(data);
+let txt = "";
 
-    dataParse.forEach((e) => {
-        txt +=
-            `<div class="card" "` +  e.title + `" style="width: 18rem;">` +
-            '<img class="card-img-top" src="#" alt="Card image cap">' +
-            '<div class="card-body">' +
-            '<h5 class="card-title" id="titleOfMedia">' +  e.title + '</h5>' +
-            '<p class="card-text">' +  e.releaseDate + '</p>' +
-            '<p class="card-text">' +  e.descritpion + '</p>' +
-            '<a href="#" class="btn btn-primary">Go somewhere</a>' +
-            '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-            '</div>';
-    });
-    console.log(txt);
-    document.getElementById("list").innerHTML = txt;
-
-
-
+dataParse.forEach((e) => {
+    txt +=
+        `<div class="card" "` + e.title + `" style="width: 18rem;">` +
+        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
+        '<div class="card-body">' +
+        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
+        '<p class="card-text">' + e.releaseDate + '</p>' +
+        '<p class="card-text">' + e.descritpion + '</p>' +
+        '<a href="#" class="btn btn-primary">Go somewhere</a>' +
+        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+        '</div>';
+});
+console.log(txt);
+document.getElementById("list").innerHTML = txt;
 
 
 document.getElementById('trie').addEventListener('click', function () {
@@ -216,7 +216,6 @@ function deleteChild(element) {
 }
 
 
-
 /////////////////////////////////////////////////////////////LocalStorageAffichage
 
 document.addEventListener("click", function (e) {
@@ -234,45 +233,45 @@ document.addEventListener("click", function (e) {
 
 
 document.addEventListener("click", function (e) {
-if (e.target.id === "All") {
-const card = document.querySelectorAll('.card');
-card.forEach(function (card) {
-card.style.display = "block";
-});
-}
-if (e.target.id === 'Album') {
-console.log("Album");
-const card = document.querySelectorAll('.card');
-card.forEach(function (card) {
-if (card.getAttribute('name') != 'Album') {
-    card.style.display = "none";
-} else {
-    card.style.display = "block";
-}
-});
-}
-if (e.target.id === 'Game') {
-const card = document.querySelectorAll('.card');
-card.forEach(function (card) {
-if (card.getAttribute('name') != 'Game') {
-    card.style.display = "none";
-} else {
-    card.style.display = "block";
-}
-});
+    if (e.target.id === "All") {
+        const card = document.querySelectorAll('.card');
+        card.forEach(function (card) {
+            card.style.display = "block";
+        });
+    }
+    if (e.target.id === 'Album') {
+        console.log("Album");
+        const card = document.querySelectorAll('.card');
+        card.forEach(function (card) {
+            if (card.getAttribute('name') != 'Album') {
+                card.style.display = "none";
+            } else {
+                card.style.display = "block";
+            }
+        });
+    }
+    if (e.target.id === 'Game') {
+        const card = document.querySelectorAll('.card');
+        card.forEach(function (card) {
+            if (card.getAttribute('name') != 'Game') {
+                card.style.display = "none";
+            } else {
+                card.style.display = "block";
+            }
+        });
 
-}
-if (e.target.id === 'Movie') {
-const card = document.querySelectorAll('.card');
-card.forEach(function (card) {
-if (card.getAttribute('name') != 'Movie') {
-    card.style.display = "none";
-} else {
-    card.style.display = "block";
-}
-});
+    }
+    if (e.target.id === 'Movie') {
+        const card = document.querySelectorAll('.card');
+        card.forEach(function (card) {
+            if (card.getAttribute('name') != 'Movie') {
+                card.style.display = "none";
+            } else {
+                card.style.display = "block";
+            }
+        });
 
 
-}
+    }
 });
 
