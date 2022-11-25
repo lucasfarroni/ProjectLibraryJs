@@ -58,7 +58,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
         document.getElementById('form').style.display = "none";
     });
 
-    document.getElementById('type').addEventListener('click', function () {
+    /*document.getElementById('type').addEventListener('click', function () {
 
         switch (document.getElementById('type').value) {
 
@@ -76,15 +76,12 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
                 break;
         }
         return typeOfMedia;
-    });
+    });*/
 
     document.getElementById('form').style.display = "block";
 
-
-
     document.getElementById('btnSubmit').addEventListener('click', async function () {
         // i++;
-
         let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value);
         document.getElementById('form').style.display = "none";
 
@@ -96,16 +93,17 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
             let similar = media.title;
             let index = tab.findIndex((media) => media.title === similar);
             console.log(index);
-            if (index === -1) {
 
-                console.log("ok ya r dans la tab");
+            if (index === -1) {
+                console.log("ok le titre pas dans la table");
                 const a = await apiCall(media.title);
                 console.log(a);
                 media.img = a.Poster;
+                console.log("un appel");
                 tab.push(media);
                 localStorage.setItem('Collection', JSON.stringify(tab));
 
-                document.getElementById('containerList').innerHTML +=
+                document.getElementById('list').innerHTML +=
 
                     `<div class="card" "` + media.title + `" style="width: 18rem;">` +
                     `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
@@ -113,8 +111,8 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
                     '<h5 class="card-title">' + media.title + '</h5>' +
                     '<p class="card-text">' + media.releaseDate + '</p>' +
                     '<p class="card-text">' + media.descritpion + '</p>' +
-                    '<a href="#" class="btn btn-primary">Go somewhere</a>' +
                     '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+                    `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
                     '</div>';
 
             } else {
@@ -122,7 +120,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
             }
 
         } else {
-            document.getElementById('containerList').innerHTML +=
+            document.getElementById('list').innerHTML +=
 
                 `<div class="card" "` + media.title + `" style="width: 18rem;">` +
                 `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
@@ -130,8 +128,8 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
                 '<h5 class="card-title">' + media.title + '</h5>' +
                 '<p class="card-text">' + media.releaseDate + '</p>' +
                 '<p class="card-text">' + media.descritpion + '</p>' +
-                '<a href="#" class="btn btn-primary">Go somewhere</a>' +
                 '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+                `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
                 '</div>';
 
             console.log("test");
@@ -158,8 +156,8 @@ dataParse.forEach((e) => {
         '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
         '<p class="card-text">' + e.releaseDate + '</p>' +
         '<p class="card-text">' + e.descritpion + '</p>' +
-        '<a href="#" class="btn btn-primary">Go somewhere</a>' +
         '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+        `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
         '</div>';
 });
 console.log(txt);
