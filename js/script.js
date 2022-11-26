@@ -5,7 +5,7 @@ let collection = new Collection();
 let tab = [];
 let i = 0;
 let typeOfMedia = "";
-
+let boucle = 0;
 /**
  * @name apiCall
  * @description fetch the data from the API omdbapi.com
@@ -38,7 +38,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
         document.getElementById('form').style.display = "none";
     });
 
-    document.getElementById('type').addEventListener('click', function () {
+    /*document.getElementById('type').addEventListener('click', function () {
 
         switch (document.getElementById('type').value) {
 
@@ -56,13 +56,15 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
                 break;
         }
         return typeOfMedia;
-    });
+    });*/
 
     document.getElementById('form').style.display = "block";
 
 
-    document.getElementById('btnSubmit').addEventListener('click', async function () {
+    document.getElementById('btnSubmit').addEventListener('click', function () {
         // i++;
+        boucle++;
+        console.log(boucle);
 
         let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
         document.getElementById('form').style.display = "none";
@@ -78,9 +80,9 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
             if (index === -1) {
 
                 console.log("ok ya r dans la tab");
-                const a = await apiCall(media.title);
-                console.log(a);
-                media.img = a.Poster;
+                //const a = await apiCall(media.title);
+                //console.log(a);
+                //media.img = a.Poster;
                 tab.push(media);
                 localStorage.setItem('Collection', JSON.stringify(tab));
 
