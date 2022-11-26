@@ -5,6 +5,7 @@ let collection = new Collection();
 let tab = [];
 let i = 0;
 let typeOfMedia = "";
+let typeTrie = "All";
 
 /**
  * @name apiCall
@@ -126,14 +127,19 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
 affichage("All");
 
 
-function affichage(type) {
+function affichage(type, tableau) {
     let data = localStorage.getItem("Collection");
-    if (data !== null) {
+
+    if (data !== null || tableau !== undefined) {
         let dataParse = JSON.parse(data);
+        if (tableau !== undefined) {
+            dataParse = tableau;
+        }
         let txt = "";
 
-
+        console.log(type === "All");
         if (type === "All") {
+            console.log("test");
             dataParse.forEach((e) => {
                 txt +=
                     `<div class="card" "` + e.title + `" style="width: 18rem;">` +
@@ -150,7 +156,9 @@ function affichage(type) {
 
 
         if (type === "Album") {
+
             dataParse.forEach((e) => {
+                console.log(e.type === "Album-btn");
                 if (e.type === "Album-btn") {
                     txt +=
                         `<div class="card" "` + e.title + `" style="width: 18rem;">` +
@@ -206,12 +214,12 @@ function affichage(type) {
 
         }
 
-        //console.log(txt);
         document.getElementById("list").innerHTML = txt;
     }
 
 
 };
+
 
 function trie() {
     console.log(document.getElementById('trie').value);
@@ -220,32 +228,23 @@ function trie() {
         let data = localStorage.getItem("Collection");
         let dataParse = JSON.parse(data);
         let txt = "";
-        if (document.getElementById('trie').value == "nom") {
+        if (document.getElementById('trie').value === "nom") {
 
-            console.log("trie par nom");
             let dataTrie = dataParse.sort((a, b) => {
                 return a.title.localeCompare(b.title);
             });
-
-            dataTrie.forEach((e) => {
-                txt +=
-                    `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-                    `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-                    '<div class="card-body">' +
-                    '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-                    '<p class="card-text">' + e.releaseDate + '</p>' +
-                    '<p class="card-text">' + e.descritpion + '</p>' +
-                    '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                    `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-                    '</div>';
-
-            });
+            affichage(typeTrie, dataTrie);
         }
+        if (document.getElementById('trie').value === "date_de_sortie") {
+            let dataTrie = dataParse.sort((a, b) => {
+                return a.releaseDate.localeCompare(b.releaseDate);
+            });
 
-
-        document.getElementById("list").innerHTML = txt;
+            affichage(typeTrie, dataTrie);
+        }
+        
     } else {
-        affichage("All");
+        affichage(typeTrie);
     }
 }
 
@@ -285,17 +284,25 @@ document.addEventListener("click", function (e) {
 document.addEventListener("click", function (e) {
 
     if (e.target.id === "All") {
-        affichage("All");
+        typeTrie = "All";
+        console.log(typeTrie);
+        trie();
     }
 
     if (e.target.id === 'Album') {
-        affichage("Album");
+        typeTrie = "Album";
+        console.log(typeTrie);
+        trie();
     }
     if (e.target.id === 'Game') {
-        affichage("Game");
+        typeTrie = "Game";
+        console.log(typeTrie);
+        trie();
     }
     if (e.target.id === 'Movie') {
-        affichage("Movie");
+        typeTrie = "Movie";
+        console.log(typeTrie);
+        trie();
     }
 });
 
