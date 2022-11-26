@@ -22,6 +22,10 @@
     border-radius: 1%;
     box-shadow: 0 0 5px #ccc;
     align-items: center;
+    background-color: #fff;
+    position: fixed;
+    margin: 0 25% 0 25%;
+
 }
 .navbar-nav mr-auto{
     display: flex;
@@ -55,8 +59,32 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
+#typeItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+
+}
+
 @media screen and (max-width: 981px) {
     #btnAddMedia{
     margin: 0;
     }
 }
+/*
+#popup-bg.active {
+    display: flex;
+}
+#popup-bg {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 3;
+    justify-content: center;
+    align-items: center;
+}*/
