@@ -6,6 +6,7 @@ let tab = [];
 let i = 0;
 let typeOfMedia = "";
 let typeTrie = "All";
+let fait = false;
 
 /**
  * @name apiCall
@@ -68,34 +69,23 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
         let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
         document.getElementById('form').style.display = "none";
 
-        console.log(localStorage.getItem('Collection') === null);
+
         if (localStorage.getItem('Collection') !== null) {
 
+
             tab = JSON.parse(localStorage.getItem('Collection'));
-            console.log(tab);
             let similar = media.title;
             let index = tab.findIndex((media) => media.title === similar);
             console.log(index);
             if (index === -1) {
+                console.log("collection exist");
 
-                console.log("ok ya r dans la tab");
                 const a = await apiCall(media.title);
-                console.log(a);
                 media.img = a.Poster;
                 tab.push(media);
                 localStorage.setItem('Collection', JSON.stringify(tab));
 
-                document.getElementById('containerList').innerHTML +=
-
-                    `<div class="card" "` + media.title + `" style="width: 18rem;">` +
-                    `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
-                    '<div class="card-body">' +
-                    '<h5 class="card-title">' + media.title + '</h5>' +
-                    '<p class="card-text">' + media.releaseDate + '</p>' +
-                    '<p class="card-text">' + media.descritpion + '</p>' +
-                    '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                    `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-                    '</div>';
+                affichage(typeTrie);
 
             } else {
                 alert("title exist in array modify the title for add this media");
@@ -139,7 +129,6 @@ function affichage(type, tableau) {
 
         console.log(type === "All");
         if (type === "All") {
-            console.log("test");
             dataParse.forEach((e) => {
                 txt +=
                     `<div class="card" "` + e.title + `" style="width: 18rem;">` +
@@ -242,7 +231,7 @@ function trie() {
 
             affichage(typeTrie, dataTrie);
         }
-        
+
     } else {
         affichage(typeTrie);
     }
