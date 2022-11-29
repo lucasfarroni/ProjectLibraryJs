@@ -5,7 +5,9 @@ let collection = new Collection();
 let tab = [];
 let i = 0;
 let typeOfMedia = "";
-let boucle = 0;
+let typeTrie = "All";
+let fait = false;
+
 /**
  * @name apiCall
  * @description fetch the data from the API omdbapi.com
@@ -38,7 +40,7 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
         document.getElementById('form').style.display = "none";
     });
 
-    /*document.getElementById('type').addEventListener('click', function () {
+    document.getElementById('type').addEventListener('click', function () {
 
         switch (document.getElementById('type').value) {
 
@@ -56,15 +58,13 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
                 break;
         }
         return typeOfMedia;
-    });*/
+    });
 
     document.getElementById('form').style.display = "block";
 
 
-    document.getElementById('btnSubmit').addEventListener('click', function () {
+    document.getElementById('btnSubmit').addEventListener('click', async function () {
         // i++;
-        boucle++;
-        console.log(boucle);
 
         let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
         document.getElementById('form').style.display = "none";
@@ -72,31 +72,21 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
         console.log(localStorage.getItem('Collection') === null);
         if (localStorage.getItem('Collection') !== null) {
 
+
             tab = JSON.parse(localStorage.getItem('Collection'));
             console.log(tab);
             let similar = media.title;
             let index = tab.findIndex((media) => media.title === similar);
             console.log(index);
             if (index === -1) {
+                console.log("collection exist");
 
-                console.log("ok ya r dans la tab");
-                //const a = await apiCall(media.title);
-                //console.log(a);
-                //media.img = a.Poster;
+                const a = await apiCall(media.title);
+                media.img = a.Poster;
                 tab.push(media);
                 localStorage.setItem('Collection', JSON.stringify(tab));
 
-                document.getElementById('containerList').innerHTML +=
-
-                    `<div class="card" "` + media.title + `" style="width: 18rem;">` +
-                    `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
-                    '<div class="card-body">' +
-                    '<h5 class="card-title">' + media.title + '</h5>' +
-                    '<p class="card-text">' + media.releaseDate + '</p>' +
-                    '<p class="card-text">' + media.descritpion + '</p>' +
-                    '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                    `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-                    '</div>';
+                affichage(typeTrie);
 
             } else {
                 alert("title exist in array modify the title for add this media");
@@ -128,13 +118,17 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
 affichage("All");
 
 
-function affichage(type) {
+function affichage(type, tableau) {
     let data = localStorage.getItem("Collection");
-    if (data !== null) {
+
+    if (data !== null || tableau !== undefined) {
         let dataParse = JSON.parse(data);
+        if (tableau !== undefined) {
+            dataParse = tableau;
+        }
         let txt = "";
 
-
+        console.log(type === "All");
         if (type === "All") {
             dataParse.forEach((e) => {
                 txt +=
@@ -152,7 +146,9 @@ function affichage(type) {
 
 
         if (type === "Album") {
+
             dataParse.forEach((e) => {
+                console.log(e.type === "Album-btn");
                 if (e.type === "Album-btn") {
                     txt +=
                         `<div class="card" "` + e.title + `" style="width: 18rem;">` +
@@ -215,6 +211,7 @@ function affichage(type) {
 
 };
 
+
 function trie() {
     console.log(document.getElementById('trie').value);
     if (document.getElementById('trie').value !== "pas_trie") {
@@ -222,32 +219,23 @@ function trie() {
         let data = localStorage.getItem("Collection");
         let dataParse = JSON.parse(data);
         let txt = "";
-        if (document.getElementById('trie').value == "nom") {
+        if (document.getElementById('trie').value === "nom") {
 
-            console.log("trie par nom");
             let dataTrie = dataParse.sort((a, b) => {
                 return a.title.localeCompare(b.title);
             });
-
-            dataTrie.forEach((e) => {
-                txt +=
-                    `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-                    `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-                    '<div class="card-body">' +
-                    '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-                    '<p class="card-text">' + e.releaseDate + '</p>' +
-                    '<p class="card-text">' + e.descritpion + '</p>' +
-                    '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                    `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-                    '</div>';
-
+            affichage(typeTrie, dataTrie);
+        }
+        if (document.getElementById('trie').value === "date_de_sortie") {
+            let dataTrie = dataParse.sort((a, b) => {
+                return a.releaseDate.localeCompare(b.releaseDate);
             });
+
+            affichage(typeTrie, dataTrie);
         }
 
-
-        document.getElementById("list").innerHTML = txt;
     } else {
-        affichage("All");
+        affichage(typeTrie);
     }
 }
 
@@ -287,17 +275,25 @@ document.addEventListener("click", function (e) {
 document.addEventListener("click", function (e) {
 
     if (e.target.id === "All") {
-        affichage("All");
+        typeTrie = "All";
+        console.log(typeTrie);
+        trie();
     }
 
     if (e.target.id === 'Album') {
-        affichage("Album");
+        typeTrie = "Album";
+        console.log(typeTrie);
+        trie();
     }
     if (e.target.id === 'Game') {
-        affichage("Game");
+        typeTrie = "Game";
+        console.log(typeTrie);
+        trie();
     }
     if (e.target.id === 'Movie') {
-        affichage("Movie");
+        typeTrie = "Movie";
+        console.log(typeTrie);
+        trie();
     }
 });
 
