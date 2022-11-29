@@ -63,54 +63,55 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
     document.getElementById('form').style.display = "block";
 
 
-    document.getElementById('btnSubmit').addEventListener('click', async function () {
-        // i++;
-
-        let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
-        document.getElementById('form').style.display = "none";
-
-        console.log(localStorage.getItem('Collection') === null);
-        if (localStorage.getItem('Collection') !== null) {
 
 
-            tab = JSON.parse(localStorage.getItem('Collection'));
-            console.log(tab);
-            let similar = media.title;
-            let index = tab.findIndex((media) => media.title === similar);
-            console.log(index);
-            if (index === -1) {
-                console.log("collection exist");
+});
 
-                const a = await apiCall(media.title);
-                media.img = a.Poster;
-                tab.push(media);
-                localStorage.setItem('Collection', JSON.stringify(tab));
+document.getElementById('btnSubmit').addEventListener('click', async function () {
+    // i++;
 
-                affichage(typeTrie);
+    let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
+    document.getElementById('form').style.display = "none";
 
-            } else {
-                alert("title exist in array modify the title for add this media");
-            }
+
+    if (localStorage.getItem('Collection') !== null) {
+
+
+        tab = JSON.parse(localStorage.getItem('Collection'));
+        let similar = media.title;
+        let index = tab.findIndex((media) => media.title === similar);
+        console.log(index);
+        if (index === -1) {
+            console.log("collection exist");
+            console.log("media ajouté");
+            const a = await apiCall(media.title);
+            media.img = a.Poster;
+            tab.push(media);
+            localStorage.setItem('Collection', JSON.stringify(tab));
+
+            affichage(typeTrie);
 
         } else {
-            document.getElementById('containerList').innerHTML +=
-
-                `<div class="card" "` + media.title + `" style="width: 18rem;">` +
-                `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
-                '<div class="card-body">' +
-                '<h5 class="card-title">' + media.title + '</h5>' +
-                '<p class="card-text">' + media.releaseDate + '</p>' +
-                '<p class="card-text">' + media.descritpion + '</p>' +
-                '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-                '</div>';
-
-            console.log("test");
-            collection.addMedia(media);
-
+            alert("title exist in array modify the title for add this media");
         }
-    });
 
+    } else {
+        document.getElementById('containerList').innerHTML +=
+
+            `<div class="card" "` + media.title + `" style="width: 18rem;">` +
+            `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
+            '<div class="card-body">' +
+            '<h5 class="card-title">' + media.title + '</h5>' +
+            '<p class="card-text">' + media.releaseDate + '</p>' +
+            '<p class="card-text">' + media.descritpion + '</p>' +
+            '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+            `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
+            '</div>';
+
+        console.log("test");
+        collection.addMedia(media);
+
+    }
 });
 
 /////////////////////////////////////////////////////////////LocalStorageAffichage
@@ -204,7 +205,6 @@ function affichage(type, tableau) {
 
         }
 
-        //console.log(txt);
         document.getElementById("list").innerHTML = txt;
     }
 
