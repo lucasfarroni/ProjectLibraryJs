@@ -41,43 +41,39 @@
 </nav>
 <div class="container" id="containerList">
 
-<div id="list"></div>
+    <div id="list"></div>
 
-<div id="form">
-    <div class="popUp">
-        <div class="form-group">
-            <label for="title">title</label>
-            <input type="text" class="form-control" id="title" placeholder="Example input">
-        </div>
-
-        <label for="basic-url">image</label>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon3">https://</span>
+    <div id="form">
+        <div class="popUp">
+            <div class="form-group">
+                <label for="title">title</label>
+                <input type="text" class="form-control" id="title" placeholder="Example input">
             </div>
-            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+            <label for="basic-url">image</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">https://</span>
+                </div>
+                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+            </div>
+            <div class="DateInput"><label for="date">Release Date :</label><input type="date" id="date" rows="1"
+                                                                                  cols="20"></div>
+            <h4 class="nav-link">type</h4>
+            <select class="nav-link" name="typeCateg" id="type">
+                <option value="Album-btn">Album</option>
+                <option value="Game-btn">Game</option>
+                <option value="Movie-btn">Movie</option>
+            </select>
+            <div class="descript">
+                <label for="subject">Description</label>
+                <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+            </div>
         </div>
-        <div class="DateInput"><label for="date">Release Date :</label><input type="date" id="date" rows="1"
-                                                                              cols="20"></div>
-
-
-        <h4 class="nav-link">type</h4>
-        <select class="nav-link" name="typeCateg" id="type">
-            <option value="Album-btn">Album</option>
-            <option value="Game-btn">Game</option>
-            <option value="Movie-btn">Movie</option>
-        </select>
-
-        <div class="descript">
-            <label for="subject">Description</label>
-            <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
-        </div>
+        <button type="button" class="btn btn-danger" id="btnSubmit">submit</button>
+        <button type="button" class="btn btn-primary" id="closeForm">close</button>
     </div>
 
-    <button type="button" class="btn btn-danger" id="btnSubmit">submit</button>
-    <button type="button" class="btn btn-primary" id="closeForm">close</button>
 
-</div>
 </div>
 <script type="module" src="js/script.js"></script>
 <script type="module" src="js/ratingStars.js"></script>

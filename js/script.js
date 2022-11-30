@@ -31,7 +31,6 @@ function returnBalise(e, stars) {
         `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
         '</div>';
     return txtTest;
-
 }
 
 /**
@@ -55,6 +54,7 @@ async function apiCall(movieTitle) {
         })
         .catch(error => console.log(error));
 }
+
 
 /**
  * @name addMedia
@@ -147,47 +147,43 @@ function affichage(type, tableau) {
         }
         let txt = "";
         console.log(type === "All");
-        if (type === "All") {
+        if (type === "All") {//display all of the media
 
             dataParse.forEach((e) => {
                 let stars = ratingStars(e.rating);
                 let insertInHtml = returnBalise(e, stars);
-                console.log(stars);
                 txt +=
                     insertInHtml;
             });
         }
-        if (type === "Album") {
+        if (type === "Album") {//display the album
             dataParse.forEach((e) => {
                 console.log(e.type === "Album-btn");
                 if (e.type === "Album-btn") {
                     let stars = ratingStars(e.rating);//call the function ratingStars for display the stars
                     let insertInHtml = returnBalise(e, stars);// call the function returnBalise for display the media
-                    console.log(stars);
                     txt +=
                         insertInHtml;
                 }
             });
         }
-        if (type === "Game") {
+        if (type === "Game") {//display the game
             dataParse.forEach((e) => {
                 if (e.type === "Game-btn") {
                     let stars = ratingStars(e.rating);//call the function ratingStars for display the stars
                     let insertInHtml = returnBalise(e, stars);// call the function returnBalise for display the media
-                    console.log(stars);
                     txt +=
                         insertInHtml;
                 }
             });
         }
-        if (type === "Movie") {
+        if (type === "Movie") {//display the movie
 
             dataParse.forEach((e) => {
                 console.log(e.type)
                 if (e.type === "Movie-btn") {
                     let stars = ratingStars(e.rating);//call the function ratingStars for display the stars
                     let insertInHtml = returnBalise(e, stars);// call the function returnBalise for display the media
-                    console.log(stars);
                     txt +=
                         insertInHtml;
                 }
@@ -235,12 +231,11 @@ window.addEventListener('load', trie);
  *
  * @name deleteChild
  * @description delete the child of the element
- *  @param {string} id
+ *  @param  element
  */
 
 function deleteChild(element) {
     let e = element;
-
     //e.firstElementChild can be used.
     let child = e.lastElementChild;
     while (child) {
@@ -254,11 +249,11 @@ function deleteChild(element) {
  */
 document.addEventListener("click", function (e) {
     if (e.target.className === "btn-delete") {
-        if (confirm("Voulez vous vraiment supprimer ce média ?") == true) {
+        if (confirm("Voulez vous vraiment supprimer ce média ?") === true) {
             let Title = e.target.parentNode.querySelector("h5").textContent;
             let data = JSON.parse(localStorage.getItem("Collection"));
             let index = data.findIndex((e) => e.title === Title);
-            data.splice(index, 1);
+            data.splice(index, 1);//delete the media in the collection
             localStorage.setItem("Collection", JSON.stringify(data));
             e.target.parentNode.remove();
         }
