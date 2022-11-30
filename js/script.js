@@ -1,5 +1,6 @@
 import {Collection} from "../Controller/Collection.js";
 import {Media} from "../Controller/Media.js";
+import {ratingStars} from "./ratingStars.js";
 
 let collection = new Collection();
 let tab = [];
@@ -7,6 +8,31 @@ let i = 0;
 let typeOfMedia = "";
 let typeTrie = "All";
 let fait = false;
+
+/**
+ * @param e
+ * @param stars
+ * @description this function is used to insert html in code
+ * @returns {string}
+ */
+function returnBalise(e, stars) {
+    let txtTest = "";
+    txtTest = `<div class="card" "` + e.title + `" style="width: 18rem;">` +
+        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
+        '<div class="card-body">' +
+        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
+        '<p class="card-text">' + e.releaseDate + '</p>' +
+        '<p class="card-text">' + e.descritpion + '</p>' +
+        `<div class="rating" id="ratingId">` +
+        `<span class="rating__result"></span>` +
+        stars +
+        `</div>` +
+        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+        `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
+        '</div>';
+    return txtTest;
+
+}
 
 /**
  * @name apiCall
@@ -29,7 +55,6 @@ async function apiCall(movieTitle) {
         })
         .catch(error => console.log(error));
 }
-
 
 /**
  * @name addMedia
@@ -62,40 +87,33 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
 
     document.getElementById('form').style.display = "block";
 
-
-
-
 });
 
 document.getElementById('btnSubmit').addEventListener('click', async function () {
-    // i++;
 
     let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
     document.getElementById('form').style.display = "none";
 
-
     if (localStorage.getItem('Collection') !== null) {
-
 
         tab = JSON.parse(localStorage.getItem('Collection'));
         let similar = media.title;
-        let index = tab.findIndex((media) => media.title === similar);
+        let index = tab.findIndex((media) => media.title === similar);//find the index of the media with the same title
         console.log(index);
-        if (index === -1) {
+        if (index === -1) {//if the media is not in the collection
             console.log("collection exist");
             console.log("media ajouté");
-            const a = await apiCall(media.title);
-            media.img = a.Poster;
+            const a = await apiCall(media.title);//call the api
+            media.img = a.Poster;//add the poster to the media
+            media.rating = a.imdbRating;//add the rating to the media
+            console.log("je suis la");
             tab.push(media);
             localStorage.setItem('Collection', JSON.stringify(tab));
-
-            affichage(typeTrie);
-
+            affichage(typeTrie);//display the collection
         } else {
-            alert("title exist in array modify the title for add this media");
+            alert("title exist in array modify the title for add this media");//if the media is in the collection
         }
-
-    } else {
+    } else {//if the collection is empty
         document.getElementById('containerList').innerHTML +=
 
             `<div class="card" "` + media.title + `" style="width: 18rem;">` +
@@ -107,17 +125,17 @@ document.getElementById('btnSubmit').addEventListener('click', async function ()
             '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
             `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
             '</div>';
-
         console.log("test");
-        collection.addMedia(media);
+        collection.addMedia(media);//add the media to the collection
 
     }
 });
-
-/////////////////////////////////////////////////////////////LocalStorageAffichage
-
+/**
+ * @name affichage
+ * @description display the collection
+ * @param {string} type
+ */
 affichage("All");
-
 
 function affichage(type, tableau) {
     let data = localStorage.getItem("Collection");
@@ -128,90 +146,61 @@ function affichage(type, tableau) {
             dataParse = tableau;
         }
         let txt = "";
-
         console.log(type === "All");
         if (type === "All") {
+
             dataParse.forEach((e) => {
+                let stars = ratingStars(e.rating);
+                let insertInHtml = returnBalise(e, stars);
+                console.log(stars);
                 txt +=
-                    `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-                    `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-                    '<div class="card-body">' +
-                    '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-                    '<p class="card-text">' + e.releaseDate + '</p>' +
-                    '<p class="card-text">' + e.descritpion + '</p>' +
-                    '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                    `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-                    '</div>';
+                    insertInHtml;
             });
         }
-
-
         if (type === "Album") {
-
             dataParse.forEach((e) => {
                 console.log(e.type === "Album-btn");
                 if (e.type === "Album-btn") {
+                    let stars = ratingStars(e.rating);//call the function ratingStars for display the stars
+                    let insertInHtml = returnBalise(e, stars);// call the function returnBalise for display the media
+                    console.log(stars);
                     txt +=
-                        `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-                        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-                        '<div class="card-body">' +
-                        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-                        '<p class="card-text">' + e.releaseDate + '</p>' +
-                        '<p class="card-text">' + e.descritpion + '</p>' +
-                        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                        `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-                        '</div>';
+                        insertInHtml;
                 }
             });
-
-
         }
-
         if (type === "Game") {
             dataParse.forEach((e) => {
                 if (e.type === "Game-btn") {
+                    let stars = ratingStars(e.rating);//call the function ratingStars for display the stars
+                    let insertInHtml = returnBalise(e, stars);// call the function returnBalise for display the media
+                    console.log(stars);
                     txt +=
-                        `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-                        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-                        '<div class="card-body">' +
-                        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-                        '<p class="card-text">' + e.releaseDate + '</p>' +
-                        '<p class="card-text">' + e.descritpion + '</p>' +
-                        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                        `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-                        '</div>';
+                        insertInHtml;
                 }
             });
         }
-
         if (type === "Movie") {
 
             dataParse.forEach((e) => {
                 console.log(e.type)
                 if (e.type === "Movie-btn") {
+                    let stars = ratingStars(e.rating);//call the function ratingStars for display the stars
+                    let insertInHtml = returnBalise(e, stars);// call the function returnBalise for display the media
+                    console.log(stars);
                     txt +=
-                        `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-                        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
-                        '<div class="card-body">' +
-                        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-                        '<p class="card-text">' + e.releaseDate + '</p>' +
-                        '<p class="card-text">' + e.descritpion + '</p>' +
-                        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-                        `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-                        '</div>';
+                        insertInHtml;
                 }
             });
-
-
         }
-
         document.getElementById("list").innerHTML = txt;
     }
+}
 
-
-};
-
-
+/**
+ * @name trie
+ * @description function sort the collection
+ */
 function trie() {
     console.log(document.getElementById('trie').value);
     if (document.getElementById('trie').value !== "pas_trie") {
@@ -220,7 +209,6 @@ function trie() {
         let dataParse = JSON.parse(data);
         let txt = "";
         if (document.getElementById('trie').value === "nom") {
-
             let dataTrie = dataParse.sort((a, b) => {
                 return a.title.localeCompare(b.title);
             });
@@ -243,6 +231,12 @@ document.getElementById('trie').addEventListener('click', trie);
 
 window.addEventListener('load', trie);
 
+/**
+ *
+ * @name deleteChild
+ * @description delete the child of the element
+ *  @param {string} id
+ */
 
 function deleteChild(element) {
     let e = element;
@@ -255,9 +249,9 @@ function deleteChild(element) {
     }
 }
 
-
-/////////////////////////////////////////////////////////////LocalStorageAffichage
-
+/**
+ *  @description confirm the delete of the media
+ */
 document.addEventListener("click", function (e) {
     if (e.target.className === "btn-delete") {
         if (confirm("Voulez vous vraiment supprimer ce média ?") == true) {
@@ -271,26 +265,28 @@ document.addEventListener("click", function (e) {
     }
 });
 
-
+/**
+ * @description sort the media by type (ALL, ALBUM, GAME, MOVIE)
+ */
 document.addEventListener("click", function (e) {
 
-    if (e.target.id === "All") {
+    if (e.target.id === "All") {//if the user click on the button All
         typeTrie = "All";
         console.log(typeTrie);
         trie();
     }
 
-    if (e.target.id === 'Album') {
+    if (e.target.id === 'Album') {//if the user click on the button Album
         typeTrie = "Album";
         console.log(typeTrie);
         trie();
     }
-    if (e.target.id === 'Game') {
+    if (e.target.id === 'Game') {//if the user click on the button Game
         typeTrie = "Game";
         console.log(typeTrie);
         trie();
     }
-    if (e.target.id === 'Movie') {
+    if (e.target.id === 'Movie') {//if the user click on the button Movie
         typeTrie = "Movie";
         console.log(typeTrie);
         trie();
