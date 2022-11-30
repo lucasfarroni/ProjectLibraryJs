@@ -5,6 +5,8 @@ import {ratingStars} from "./ratingStars.js";
 let collection = new Collection();
 let tab = [];
 let i = 0;
+let edit = false;
+let ElementRec = "";
 let typeOfMedia = "";
 let typeTrie = "All";
 let fait = false;
@@ -28,7 +30,7 @@ function returnBalise(e, stars) {
         stars +
         `</div>` +
         '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-        `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
+        `<button type="button" id="edit` + i + `" class="btn-edit">edit</button>` +
         '</div>';
     return txtTest;
 }
@@ -61,9 +63,7 @@ async function apiCall(movieTitle) {
  * @description add a media to the collection
  */
 document.getElementById('btnAddMedia').addEventListener('click', function () {
-    document.getElementById('closeForm').addEventListener('click', function () {
-        document.getElementById('form').style.display = "none";
-    });
+
 
     document.getElementById('type').addEventListener('click', function () {
 
@@ -87,9 +87,50 @@ document.getElementById('btnAddMedia').addEventListener('click', function () {
 
     document.getElementById('form').style.display = "block";
 
+
 });
 
+document.getElementById('closeForm').addEventListener('click', function () {
+    document.getElementById('form').style.display = "none";
+    document.getElementById('title').value = "";
+    document.getElementById('date').value = "";
+    document.getElementById('subject').value = "";
+    document.getElementById('basic-url').value = "";
+    //document.getElementById('rating').value = "";
+    document.getElementById('type').value = "Album-btn";
+    edit = false;
+});
+
+document.addEventListener('click', function (e) {
+    if (e.target.className === "btn-edit") {
+        edit = true;
+        ElementRec = e;
+        console.log("edit");
+        document.getElementById('form').style.display = "block";
+        document.getElementById('title').value = e.target.parentNode.querySelector("h5").textContent;
+        document.getElementById('date').value = e.target.parentNode.querySelector("p").textContent;
+        document.getElementById('subject').value = e.target.parentNode.querySelector("p:nth-child(3)").textContent;
+        document.getElementById('basic-url').value = e.target.parentNode.querySelector("img").src;
+        let data = localStorage.getItem("Collection");
+        let dataParse = JSON.parse(data);
+        dataParse.forEach((s) => {
+            if (s.title === e.target.parentNode.querySelector("h5").textContent) {
+                //document.getElementById('rating').value = s.rating;
+                document.getElementById('type').value = s.type;
+            }
+        });
+
+    }
+
+});
+
+
 document.getElementById('btnSubmit').addEventListener('click', async function () {
+    if (edit === true) {
+        deleteMedia(ElementRec);
+        edit = false
+        ElementRec = "";
+    }
 
     let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
     document.getElementById('form').style.display = "none";
@@ -234,14 +275,13 @@ window.addEventListener('load', trie);
  *  @param  element
  */
 
-function deleteChild(element) {
-    let e = element;
-    //e.firstElementChild can be used.
-    let child = e.lastElementChild;
-    while (child) {
-        e.removeChild(child);
-        child = e.lastElementChild;
-    }
+function deleteMedia(e) {
+    let Title = e.target.parentNode.querySelector("h5").textContent;
+    let data = JSON.parse(localStorage.getItem("Collection"));
+    let index = data.findIndex((e) => e.title === Title);
+    data.splice(index, 1);//delete the media in the collection
+    localStorage.setItem("Collection", JSON.stringify(data));
+    e.target.parentNode.remove();
 }
 
 /**
@@ -250,12 +290,7 @@ function deleteChild(element) {
 document.addEventListener("click", function (e) {
     if (e.target.className === "btn-delete") {
         if (confirm("Voulez vous vraiment supprimer ce média ?") === true) {
-            let Title = e.target.parentNode.querySelector("h5").textContent;
-            let data = JSON.parse(localStorage.getItem("Collection"));
-            let index = data.findIndex((e) => e.title === Title);
-            data.splice(index, 1);//delete the media in the collection
-            localStorage.setItem("Collection", JSON.stringify(data));
-            e.target.parentNode.remove();
+            deleteMedia(e);
         }
     }
 });
