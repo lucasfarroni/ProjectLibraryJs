@@ -3,8 +3,7 @@ import {ratingStars} from "./ratingStars.js";
 import {Game} from "../Controller/Game.js";
 import {Album} from "../Controller/Album.js";
 import {Movie} from "../Controller/Movie.js";
-
-import {manualInsert , useApiAndInsertInCollection} from "./InsertManualOrWithApi.js";
+import {manualInsert, useApiAndInsertInCollection} from "./InsertManualOrWithApi.js";
 
 let collection = new Collection();
 let tab = [];
@@ -16,12 +15,22 @@ let typeTrie = "All";
 let fait = false;
 let manualOrWithApi = "";
 
-
+/**
+ * @description : control if media exist in collection
+ * @param media
+ * @param tab
+ * @returns index -1 if not exist
+ */
 export function controlIfExistInCollection(media, tab) {
     let similar = media.title;
     return tab.findIndex((media) => media.title === similar);
 }
 
+/**
+ * @description : return the good instance of media if type is movie, game or album
+ * @param type
+ * @returns {Game|Album|Movie}
+ */
 export function objectController(type) {
     if (type === "Game") {
         return new Game(document.getElementById("studio").value, "nbplayers", "plot", document.getElementById('title').value, document.getElementById('date').value, document.getElementById('rating').value, document.getElementById('basic-url').value, document.getElementById('subject').value, "Game");
@@ -32,6 +41,11 @@ export function objectController(type) {
     }
 }
 
+/**
+ * @description : return the good attribute specific attribute of media if type is movie, game or album
+ * @param obj
+ * @returns attribut
+ */
 export function addSpecificAttribut(obj) {
     let attribut = ""
     console.log(obj);
@@ -49,6 +63,12 @@ export function addSpecificAttribut(obj) {
     return attribut;
 }
 
+/**
+ * @description : add balise html for media
+ * @param obj
+ * @param stars
+ * @returns balise html with media attribut
+ */
 export function returnBalise(obj, stars) {
     let attribut = addSpecificAttribut(obj);
     let txtTest = "";
@@ -60,17 +80,17 @@ export function returnBalise(obj, stars) {
         '<p class="card-text">' + obj.releaseDate + '</p>' +
         '<p class="card-text">' + obj.description + '</p>' +
         `<div class="card-text" id="insertSpecificAttribut">` + attribut + `</div>` +
-        '</div>'+
+        '</div>' +
         '<div class="divRating">' +
-            `<div class="rating" id="ratingId">` +
-                `<span class="rating__result"></span>` +
-                    stars +
-            `</div>` +
-            `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-            `<button type="button" id="edit` + i + `" class="btn-edit">edit</button>` +
+        `<div class="rating" id="ratingId">` +
+        `<span class="rating__result"></span>` +
+        stars +
+        `</div>` +
+        `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+        `<button type="button" id="edit` + i + `" class="btn-edit">edit</button>` +
         '</div>' +
         '</div>'
-        ;
+    ;
     return txtTest;
 }
 
@@ -123,6 +143,7 @@ document.addEventListener('click', function (e) {
         ElementRec = e;
         console.log("edit");
         document.getElementById('form').style.display = "block";
+        console.log(document.getElementById('title').value = e.target.parentNode.querySelector("h5").textContent);
         document.getElementById('title').value = e.target.parentNode.querySelector("h5").textContent;
         document.getElementById('date').value = e.target.parentNode.querySelector("p").textContent;
         document.getElementById('subject').value = e.target.parentNode.querySelector("p:nth-child(3)").textContent;
@@ -182,7 +203,6 @@ document.getElementById('type').addEventListener('click', function () {
     }
 });
 
-
 document.getElementById('ManualOrApi').addEventListener('click', function () {
     console.log(document.getElementById('ManualOrApi').value);
     switch (document.getElementById('ManualOrApi').value) {
@@ -211,11 +231,10 @@ document.getElementById('btnSubmit').addEventListener('click', async function ()
     //let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
 
     document.getElementById('form').style.display = "none";
-    if(manualOrWithApi === 'WithApi') {
-        await useApiAndInsertInCollection(media,typeOfMedia,tab,collection,typeTrie);//Add media with api attribute
-    }
-    else {
-        manualInsert(media,typeOfMedia,tab,collection,typeTrie);//Add media with manual input
+    if (manualOrWithApi === 'WithApi') {
+        await useApiAndInsertInCollection(media, typeOfMedia, tab, collection, typeTrie);//Add media with api attribute
+    } else {
+        manualInsert(media, typeOfMedia, tab, collection, typeTrie);//Add media with manual input
     }
 });
 
@@ -321,8 +340,8 @@ window.addEventListener('load', trie);
  * @description delete the child of the element
  *  @param  e
  */
-
 function deleteMedia(e) {
+
     let Title = e.target.parentNode.querySelector("h5").textContent;
     let data = JSON.parse(localStorage.getItem("Collection"));
     let index = data.findIndex((e) => e.title === Title);
@@ -335,6 +354,7 @@ function deleteMedia(e) {
  *  @description confirm the delete of the media
  */
 document.addEventListener("click", function (e) {
+
     if (e.target.className === "btn-delete") {
         if (confirm("Voulez vous vraiment supprimer ce média ?") === true) {
             deleteMedia(e);

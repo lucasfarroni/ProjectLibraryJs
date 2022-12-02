@@ -3,8 +3,14 @@ import {objectController , controlIfExistInCollection , apiCall ,affichage , add
 import {Collection} from "../Controller/Collection.js";
 
 
-
-
+/**
+ * @param media
+ * @param typeOfMedia
+ * @param tab
+ * @param collection
+ * @param typeTrie
+ * @description if user click on manual , he can add a new media in his collection manually
+ */
 export function manualInsert(media,typeOfMedia,tab,collection,typeTrie){
 
     if (typeOfMedia === "") {
@@ -40,6 +46,14 @@ export function manualInsert(media,typeOfMedia,tab,collection,typeTrie){
     }
 }
 
+/**
+ * @param media
+ * @param typeOfMedia
+ * @param tab
+ * @param collection
+ * @param typeTrie
+ * @description if user click on ImportWithApi , he can add a new media in his collection with the api
+ */
 export async function useApiAndInsertInCollection(media,typeOfMedia,tab,collection,typeTrie) {
 
     if (typeOfMedia === "") {
@@ -50,7 +64,6 @@ export async function useApiAndInsertInCollection(media,typeOfMedia,tab,collecti
         console.log(media);
         typeOfMedia = "";
         console.log("ok")
-//-------------------------------------------------main-------------------------------------------------//
         if (localStorage.getItem('Collection') !== null) {
             tab = JSON.parse(localStorage.getItem('Collection'));
             let index = controlIfExistInCollection(media, tab);//find the index of the media with the same title
