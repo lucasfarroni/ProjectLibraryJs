@@ -1,6 +1,9 @@
 import {Collection} from "../Controller/Collection.js";
 import {Media} from "../Controller/Media.js";
 import {ratingStars} from "./ratingStars.js";
+import {Game} from "../Controller/Game.js";
+import {Album} from "../Controller/Album.js";
+import {Movie} from "../Controller/Movie.js";
 
 let collection = new Collection();
 let tab = [];
@@ -10,21 +13,47 @@ let ElementRec = "";
 let typeOfMedia = "";
 let typeTrie = "All";
 let fait = false;
+let manualOrWithApi = "";
 
-/**
- * @param e
- * @param stars
- * @description this function is used to insert html in code
- * @returns {string}
- */
-function returnBalise(e, stars) {
+function objectController(type) {
+    if (type === "Game") {
+        return new Game(document.getElementById("studio").value, "nbplayers", "plot", document.getElementById('title').value, document.getElementById('date').value, "rating", "img", "description", "Game");
+    } else if (type === "Album") {
+        return new Album(document.getElementById("Artist").value, "nbTracks", document.getElementById('title').value, document.getElementById('date').value, "rating", "img", "description", "Album");
+    } else if (type === "Movie") {
+        return new Movie("director", document.getElementById("actor").value, "duration", "plot", document.getElementById('title').value, document.getElementById('date').value, "rating", "img", "description", "Movie");
+
+    }
+}
+
+function addSpecificAttribut(obj) {
+    let attribut = ""
+    console.log(obj);
+    if (obj.studio !== undefined) {
+        console.log(obj.studio);
+        attribut = obj.studio;
+    } else if (obj.artists !== undefined) {
+        console.log(obj.artists);
+        attribut = obj.artists;
+    } else if (obj._actors !== undefined) {
+        console.log(obj._actors)
+        attribut = obj._actors;
+    }
+    console.log(attribut);
+    return attribut;
+}
+
+
+function returnBalise(obj, stars) {
+    let attribut = addSpecificAttribut(obj);
     let txtTest = "";
-    txtTest = `<div class="card" "` + e.title + `" style="width: 18rem;">` +
-        `<img class="card-img-top" src="` + e.img + `" alt="Card image cap">` +
+    txtTest = `<div class="card" "` + obj.title + `" style="width: 18rem;">` +
+        `<img class="card-img-top" src="` + obj.img + `" alt="Card image cap">` +
         '<div class="card-body">' +
-        '<h5 class="card-title" id="titleOfMedia">' + e.title + '</h5>' +
-        '<p class="card-text">' + e.releaseDate + '</p>' +
-        '<p class="card-text">' + e.descritpion + '</p>' +
+        '<h5 class="card-title" id="titleOfMedia">' + obj.title + '</h5>' +
+        '<p class="card-text">' + obj.releaseDate + '</p>' +
+        '<p class="card-text">' + obj.description + '</p>' +
+        `<div class="card-text" id="insertSpecificAttribut">` + attribut + `</div>` +
         `<div class="rating" id="ratingId">` +
         `<span class="rating__result"></span>` +
         stars +
@@ -32,6 +61,7 @@ function returnBalise(e, stars) {
         '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
         `<button type="button" id="edit` + i + `" class="btn-edit">edit</button>` +
         '</div>';
+
     return txtTest;
 }
 
@@ -57,36 +87,13 @@ async function apiCall(movieTitle) {
         .catch(error => console.log(error));
 }
 
-
 /**
  * @name addMedia
  * @description add a media to the collection
  */
 document.getElementById('btnAddMedia').addEventListener('click', function () {
 
-
-    document.getElementById('type').addEventListener('click', function () {
-
-        switch (document.getElementById('type').value) {
-
-            case "Album-btn":
-                console.log("album");
-                typeOfMedia = "Album";
-                break;
-            case "Game-btn":
-                console.log("Game");
-                typeOfMedia = "Game";
-                break;
-            case "Movie-btn":
-                console.log("livre");
-                typeOfMedia = "Movie";
-                break;
-        }
-        return typeOfMedia;
-    });
-
     document.getElementById('form').style.display = "block";
-
 
 });
 
@@ -124,6 +131,66 @@ document.addEventListener('click', function (e) {
 
 });
 
+let media = "";
+document.getElementById('type').addEventListener('click', function () {
+
+    console.log(document.getElementById('type').value);
+
+    switch (document.getElementById('type').value) {
+        case "Album-btn":
+            console.log("album");
+            typeOfMedia = "Album";
+            document.getElementById('specificType').innerHTML =
+                '<div class="form-group">' +
+                '<label htmlFor="Artist">Name of the artist</label>' +
+                '<input type="text" class="form-control" id="Artist" placeholder="Example input">' +
+                '</div>';
+            //media = new Album(document.getElementById("Artist").value, "nbTracks", document.getElementById('title').value, document.getElementById('date').value, "rating", "img","description");
+            //console.log(media);
+            break;
+
+        case "Game-btn":
+            console.log("Game");
+            typeOfMedia = "Game";
+            document.getElementById('specificType').innerHTML =
+                '<div class="form-group">' +
+                '<label htmlFor="studio">Name of the studio</label>' +
+                '<input type="text" class="form-control" id="studio" placeholder="Example input">' +
+                '</div>';
+            //media = new Game(document.getElementById("studio").value, "nbplayers", "plot", document.getElementById('title').value, document.getElementById('date').value, "rating", "img","description");
+            // console.log(media);
+            break;
+
+        case "Movie-btn":
+            console.log("movie");
+            typeOfMedia = "Movie";
+            document.getElementById('specificType').innerHTML =
+                '<div class="form-group">' +
+                '<label htmlFor="actor">Name of the actor</label>' +
+                '<input type="text" class="form-control" id="actor" placeholder="Example input">' +
+                '</div>';
+            //media = new Movie("director", document.getElementById("actor").value, "duration", "plot", document.getElementById('title').value, document.getElementById('date').value, "rating", "img","description");
+            //console.log(media);
+            break;
+    }
+});
+
+
+document.getElementById('ManualOrApi').addEventListener('click', function () {
+    console.log(document.getElementById('ManualOrApi').value);
+    switch (document.getElementById('ManualOrApi').value) {
+        case "manual":
+            manualOrWithApi = "manual";
+            break;
+        case "api":
+            manualOrWithApi = "WithApi";
+            break;
+    }
+});
+if (manualOrWithApi === "") {
+    manualOrWithApi = "WithApi";
+}
+
 
 document.getElementById('btnSubmit').addEventListener('click', async function () {
     if (edit === true) {
@@ -131,46 +198,53 @@ document.getElementById('btnSubmit').addEventListener('click', async function ()
         edit = false
         ElementRec = "";
     }
+    console.log(media);
+    //let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
 
-    let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
     document.getElementById('form').style.display = "none";
 
-    if (localStorage.getItem('Collection') !== null) {
+    if (typeOfMedia === "") {
+        alert("Please select a type and after submit");
+        media = "";
+    } else {
+        media = objectController(typeOfMedia);
+        console.log(media);
+        typeOfMedia = "";
+        console.log("ok")
+//-------------------------------------------------main-------------------------------------------------//
+        if (localStorage.getItem('Collection') !== null) {
 
-        tab = JSON.parse(localStorage.getItem('Collection'));
-        let similar = media.title;
-        let index = tab.findIndex((media) => media.title === similar);//find the index of the media with the same title
-        console.log(index);
-        if (index === -1) {//if the media is not in the collection
-            console.log("collection exist");
-            console.log("media ajouté");
+            tab = JSON.parse(localStorage.getItem('Collection'));
+            let similar = media.title;
+            let index = tab.findIndex((media) => media.title === similar);//find the index of the media with the same title
+            console.log(index);
+            if (index === -1) {//if the media is not in the collection
+                console.log("collection exist");
+                console.log("media ajouté");
+                const a = await apiCall(media.title);//call the api
+                media.img = a.Poster;//add the poster to the media
+                media.rating = a.imdbRating;//add the rating to the media
+                console.log("je suis la");
+                tab.push(media);
+                localStorage.setItem('Collection', JSON.stringify(tab));
+                affichage(typeTrie);//display the collection
+            } else {
+                alert("title exist in array modify the title for add this media");//if the media is in the collection
+                media = "";
+            }
+        } else {//if the collection is empty
             const a = await apiCall(media.title);//call the api
             media.img = a.Poster;//add the poster to the media
             media.rating = a.imdbRating;//add the rating to the media
-            console.log("je suis la");
-            tab.push(media);
-            localStorage.setItem('Collection', JSON.stringify(tab));
-            affichage(typeTrie);//display the collection
-        } else {
-            alert("title exist in array modify the title for add this media");//if the media is in the collection
+            console.log("je suis la dans la collect vide");
+            let stars = ratingStars(media.rating);//call the function ratingStars for display the stars
+            document.getElementById("list").innerHTML = returnBalise(media, stars);
+            collection.addMedia(media);//add the media to the collection
         }
-    } else {//if the collection is empty
-        document.getElementById('containerList').innerHTML +=
-
-            `<div class="card" "` + media.title + `" style="width: 18rem;">` +
-            `<img class="card-img-top" src="` + media.img + `" alt="Card image cap">` +
-            '<div class="card-body">' +
-            '<h5 class="card-title">' + media.title + '</h5>' +
-            '<p class="card-text">' + media.releaseDate + '</p>' +
-            '<p class="card-text">' + media.descritpion + '</p>' +
-            '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-            `<button type="button" id="edit` + i + `" class="btn btn-primary">edit</button>` +
-            '</div>';
-        console.log("test");
-        collection.addMedia(media);//add the media to the collection
-
     }
 });
+
+//-------------------------------------------------main-------------------------------------------------//
 /**
  * @name affichage
  * @description display the collection
@@ -200,7 +274,7 @@ function affichage(type, tableau) {
         if (type === "Album") {//display the album
             dataParse.forEach((e) => {
                 console.log(e.type === "Album-btn");
-                if (e.type === "Album-btn") {
+                if (e.type === "Album") {
                     let stars = ratingStars(e.rating);//call the function ratingStars for display the stars
                     let insertInHtml = returnBalise(e, stars);// call the function returnBalise for display the media
                     txt +=
@@ -210,7 +284,7 @@ function affichage(type, tableau) {
         }
         if (type === "Game") {//display the game
             dataParse.forEach((e) => {
-                if (e.type === "Game-btn") {
+                if (e.type === "Game") {
                     let stars = ratingStars(e.rating);//call the function ratingStars for display the stars
                     let insertInHtml = returnBalise(e, stars);// call the function returnBalise for display the media
                     txt +=
@@ -222,7 +296,7 @@ function affichage(type, tableau) {
 
             dataParse.forEach((e) => {
                 console.log(e.type)
-                if (e.type === "Movie-btn") {
+                if (e.type === "Movie") {
                     let stars = ratingStars(e.rating);//call the function ratingStars for display the stars
                     let insertInHtml = returnBalise(e, stars);// call the function returnBalise for display the media
                     txt +=
@@ -265,7 +339,6 @@ function trie() {
 }
 
 document.getElementById('trie').addEventListener('click', trie);
-
 window.addEventListener('load', trie);
 
 /**
@@ -294,7 +367,6 @@ document.addEventListener("click", function (e) {
         }
     }
 });
-
 /**
  * @description sort the media by type (ALL, ALBUM, GAME, MOVIE)
  */

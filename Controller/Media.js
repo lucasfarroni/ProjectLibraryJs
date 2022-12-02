@@ -1,10 +1,10 @@
 export class Media {
-    constructor(title, releaseDate  , rating , img , descritpion,type) {
+    constructor(title, releaseDate  , rating , img , description,type) {
         this.title = title;
         this.releaseDate = releaseDate;
         this.rating = rating;
         this.img = img;
-        this.descritpion = descritpion;
+        this.description= description;
         this.type = type;
 
     }

@@ -1,8 +1,8 @@
-import {Media} from "./Media";
+import {Media} from "./Media.js";
 
-class Movie extends Media {
- constructor(director,actors,duration,plot, title, releaseDate, rating, img,description) {
-     super( title, releaseDate, rating, img,description);
+export class Movie extends Media {
+ constructor(director,actors,duration,plot, title, releaseDate, rating, img,description,type) {
+     super( title, releaseDate, rating, img,description,type);
         this.director = director;
         this.actors = actors;
         this.duration = duration;

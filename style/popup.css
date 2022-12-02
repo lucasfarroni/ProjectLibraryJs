@@ -6,6 +6,7 @@
 }
 
 #form{
+    width: 50%;
     display: none;
     border: 1px solid #ccc;
     border-radius: 1%;
@@ -13,14 +14,22 @@
     align-items: center;
     background-color: #fff;
     position: fixed;
-    margin: 0 25% 0 25%;
+    margin: 0 0 0 10%;
 
 }
 
+.insertMedia{
+    display: flex;
+}
+.typePosition{
+
+    display: flex;
+}
 .descript {
     display: flex;
     flex-direction: column;
 }
+
 
 @media screen and (max-width: 981px) {
     #btnAddMedia{

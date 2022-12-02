@@ -45,48 +45,70 @@
 
     <div id="form">
         <div class="popUp">
-            <div class="form-group">
-                <label for="title">title</label>
-                <input type="text" class="form-control" id="title" placeholder="Example input">
-            </div>
-            <label for="basic-url">image</label>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon3">https://</span>
+            <div class="general">
+
+                <div class="insertMedia">
+                    <h6 class="nav-link">Insert </h6>
+                    <select class="nav-link" name="Categ" id="ManualOrApi">
+                        <option value="Api">Media With Api</option>
+                        <option value="Manual">Manual</option>
+                    </select>
+
+                    <div class="typePosition">
+                        <h6 class="nav-link">type</h6>
+                        <select class="nav-link" name="typeCateg" id="type">
+                            <option value="Album-btn">Album</option>
+                            <option value="Game-btn">Game</option>
+                            <option value="Movie-btn">Movie</option>
+                        </select>
+                    </div>
                 </div>
-                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-            </div>
-            <div class="DateInput"><label for="date">Release Date :</label><input type="date" id="date" rows="1"
-                                                                                  cols="20"></div>
-            <h4 class="nav-link">type</h4>
-            <select class="nav-link" name="typeCateg" id="type">
-                <option value="Album-btn">Album</option>
-                <option value="Game-btn">Game</option>
-                <option value="Movie-btn">Movie</option>
-            </select>
-            <div class="descript">
-                <label for="subject">Description</label>
-                <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+                <h2> general </h2>
+                <div class="form-group">
+                    <label for="title">title</label>
+                    <input type="text" class="form-control" id="title" placeholder="Example input">
+                </div>
+                <label for="basic-url">image</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">https://</span>
+                    </div>
+                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                </div>
+                <div class="DateInput"><label for="date">Release Date :</label><input type="date" id="date" rows="1"
+                                                                                      cols="20"></div>
+
+                <div class="descript">
+                    <label for="subject">Description</label>
+                    <textarea id="subject" name="subject" placeholder="Write something.."
+                              style="height:50px"></textarea>
+                </div>
             </div>
         </div>
-        <button type="button" class="btn btn-danger" id="btnSubmit">submit</button>
-        <button type="button" class="btn btn-primary" id="closeForm">close</button>
+        <div class="specific">
+            <h2> specific </h2>
+            <div class="speci" id="specificType">
+
+            </div>
+            <div class="btnPosition">
+                <button type="button" class="btn btn-danger" id="btnSubmit">submit</button>
+                <button type="button" class="btn btn-primary" id="closeForm">close</button>
+            </div>
+        </div>
+
+
     </div>
-
-
 </div>
-<script type="module" src="js/script.js"></script>
-<script type="module" src="js/ratingStars.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-
+    <script type="module" src="./js/script.js"></script>
+    <script type="module" src="./js/ratingStars.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 </body>
 </html>
