@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a3b9061a-34a0-486f-b0af-0e0004f5f020" name="Changes" comment="add com" />
+    <list default="true" id="a3b9061a-34a0-486f-b0af-0e0004f5f020" name="Changes" comment="test" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -114,7 +114,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667851076536</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="test">
+      <created>1670021291855</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1670021291855</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,10 +142,10 @@
     <MESSAGE value="massiv prob" />
     <MESSAGE value="test pop up yeah" />
     <MESSAGE value="add attribut in class" />
-    <MESSAGE value="test" />
     <MESSAGE value="localStorageUpdate" />
     <MESSAGE value="localStorage add ok" />
     <MESSAGE value="display date and description" />
-    <option name="LAST_COMMIT_MESSAGE" value="display date and description" />
+    <MESSAGE value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
 </project>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../OneDrive/Bureau/style/style.css">
+    <link rel="stylesheet" href="../../OneDrive/Bureau/style/popup.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/11fdb0ccd9.js" crossorigin="anonymous"></script>
+    <title>Title</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" id="All" href="#">All</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" id="Album" href="#">Album</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Game" href="#">Games</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Movie" href="#">Movie</a>
+            </li>
+            <li class="nav-item" id="typeItem">
+                <select class="nav-link" name="trie" id="trie">
+                    <option value="pas_trie">Non trié</option>
+                    <option value="date_de_sortie">Date de Sortie</option>
+                    <option value="nom">Nom</option>
+                </select>
+            </li>
+        </ul>
+        <button type="button" class="btn btn-outline-info" id="btnAddMedia">add Media</button>
+    </div>
+</nav>
+<div class="container" id="containerList">
+
+    <div id="list"></div>
+
+    <div id="form">
+        <div class="popUp">
+            <div class="general">
+
+                <div class="insertMedia">
+                    <h6 class="nav-link">Insert </h6>
+                    <select class="nav-link" name="Categ" id="ManualOrApi">
+                        <option value="Api">Media With Api</option>
+                        <option value="Manual">Manual</option>
+                    </select>
+
+                    <div class="typePosition">
+                        <h6 class="nav-link">type</h6>
+                        <select class="nav-link" name="typeCateg" id="type">
+                            <option value="Album-btn">Album</option>
+                            <option value="Game-btn">Game</option>
+                            <option value="Movie-btn">Movie</option>
+                        </select>
+                    </div>
+                </div>
+                <h2> general </h2>
+                <div class="form-group">
+                    <label for="title">title</label>
+                    <input type="text" class="form-control" id="title" placeholder="Example input">
+                </div>
+            </div>
+            <div class="Manual" id="manual">
+                <label for="basic-url">image</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">https://</span>
+                    </div>
+                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                </div>
+                <div class="DateInput"><label for="date">Release Date :</label><input type="date" id="date" rows="1" cols="20"></div>
+                <div class="descript">
+                    <label for="subject">Description</label>
+                    <textarea id="subject" name="subject" placeholder="Write something.." style="height:50px"></textarea>
+                </div>
+                <div class="RatingManual">
+                    <label for="rating">Rating</label>
+                    <input type="number" id="rating" name="rating" min="0" max="10">
+                </div>
+                <div class="specific">
+                    <h2> specific </h2>
+                    <div class="speci" id="specificType">
+
+                    </div>
+                </div>
+            </div>
+            <div class="btnPosition">
+                <button type="button" class="btn btn-danger" id="btnSubmit">submit</button>
+                <button type="button" class="btn btn-primary" id="closeForm">close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="../../OneDrive/Bureau/js/script.js"></script>
+<script type="module" src="../../OneDrive/Bureau/js/ratingStars.js"></script>
+<script type="module" src="../../OneDrive/Bureau/js/InsertManualOrWithApi.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
