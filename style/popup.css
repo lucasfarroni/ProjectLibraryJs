@@ -1,0 +1,58 @@
+
+
+#btnAddMedia{
+    margin-left: 1%;
+
+}
+
+#form{
+    width: 50%;
+    display: none;
+    border: 1px solid #ccc;
+    border-radius: 1%;
+    box-shadow: 0 0 5px #ccc;
+    align-items: center;
+    background-color: #fff;
+    position: fixed;
+    margin: 0 0 0 10%;
+
+}
+#manual{
+    display: none;
+}
+
+.insertMedia{
+    display: flex;
+}
+.typePosition{
+
+    display: flex;
+}
+.descript {
+    display: flex;
+    flex-direction: column;
+}
+
+
+@media screen and (max-width: 981px) {
+    #btnAddMedia{
+        margin: 0;
+        margin-top: 1%;
+    }
+}
+/*
+#popup-bg.active {
+    display: flex;
+}
+#popup-bg {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 3;
+    justify-content: center;
+    align-items: center;
+}*/
