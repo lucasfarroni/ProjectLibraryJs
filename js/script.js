@@ -1,9 +1,10 @@
 import {Collection} from "../Controller/Collection.js";
-import {Media} from "../Controller/Media.js";
 import {ratingStars} from "./ratingStars.js";
 import {Game} from "../Controller/Game.js";
 import {Album} from "../Controller/Album.js";
 import {Movie} from "../Controller/Movie.js";
+
+import {manualInsert , useApiAndInsertInCollection} from "./InsertManualOrWithApi.js";
 
 let collection = new Collection();
 let tab = [];
@@ -16,62 +17,22 @@ let fait = false;
 let manualOrWithApi = "";
 
 
-async function useApiAndInsertInCollection() {
-
-    if (typeOfMedia === "") {
-        alert("Please select a type and after submit");
-        media = "";
-    } else {
-        media = objectController(typeOfMedia);
-        console.log(media);
-        typeOfMedia = "";
-        console.log("ok")
-//-------------------------------------------------main-------------------------------------------------//
-        if (localStorage.getItem('Collection') !== null) {
-
-            tab = JSON.parse(localStorage.getItem('Collection'));
-            let similar = media.title;
-            let index = tab.findIndex((media) => media.title === similar);//find the index of the media with the same title
-            console.log(index);
-            if (index === -1) {//if the media is not in the collection
-                console.log("collection exist");
-                console.log("media ajouté");
-                const a = await apiCall(media.title);//call the api
-                media.img = a.Poster;//add the poster to the media
-                media.rating = a.imdbRating;//add the rating to the media
-                media.description = a.Plot;//add the description to the media
-                console.log("je suis la");
-                tab.push(media);
-                localStorage.setItem('Collection', JSON.stringify(tab));
-                affichage(typeTrie);//display the collection
-            } else {
-                alert("title exist in array modify the title for add this media");//if the media is in the collection
-                media = "";
-            }
-        } else {//if the collection is empty
-            const a = await apiCall(media.title);//call the api
-            media.img = a.Poster;//add the poster to the media
-            media.rating = a.imdbRating;//add the rating to the media
-            media.description = a.Plot;//add the description to the media
-            console.log("je suis la dans la collect vide");
-            let stars = ratingStars(media.rating);//call the function ratingStars for display the stars
-            document.getElementById("list").innerHTML = returnBalise(media, stars);
-            collection.addMedia(media);//add the media to the collection
-        }
-    }
+export function controlIfExistInCollection(media, tab) {
+    let similar = media.title;
+    return tab.findIndex((media) => media.title === similar);
 }
 
-function objectController(type) {
+export function objectController(type) {
     if (type === "Game") {
-        return new Game(document.getElementById("studio").value, "nbplayers", "plot", document.getElementById('title').value, document.getElementById('date').value, "rating", "img", "description", "Game");
+        return new Game(document.getElementById("studio").value, "nbplayers", "plot", document.getElementById('title').value, document.getElementById('date').value, document.getElementById('rating').value, document.getElementById('basic-url').value, document.getElementById('subject').value, "Game");
     } else if (type === "Album") {
-        return new Album(document.getElementById("Artist").value, "nbTracks", document.getElementById('title').value, document.getElementById('date').value, "rating", "img", "description", "Album");
+        return new Album(document.getElementById("Artist").value, "nbTracks", document.getElementById('title').value, document.getElementById('date').value, document.getElementById('rating').value, document.getElementById('basic-url').value, document.getElementById('subject').value, "Album");
     } else if (type === "Movie") {
-        return new Movie("director", document.getElementById("actor").value, "duration", "plot", document.getElementById('title').value, document.getElementById('date').value, "rating", "img", "description", "Movie");
+        return new Movie("director", document.getElementById("actor").value, "duration", "plot", document.getElementById('title').value, document.getElementById('date').value, document.getElementById('rating').value, document.getElementById('basic-url').value, document.getElementById('subject').value, "Movie");
     }
 }
 
-function addSpecificAttribut(obj) {
+export function addSpecificAttribut(obj) {
     let attribut = ""
     console.log(obj);
     if (obj.studio !== undefined) {
@@ -88,8 +49,7 @@ function addSpecificAttribut(obj) {
     return attribut;
 }
 
-
-function returnBalise(obj, stars) {
+export function returnBalise(obj, stars) {
     let attribut = addSpecificAttribut(obj);
     let txtTest = "";
 
@@ -111,8 +71,6 @@ function returnBalise(obj, stars) {
         '</div>' +
         '</div>'
         ;
-
-
     return txtTest;
 }
 
@@ -122,7 +80,7 @@ function returnBalise(obj, stars) {
  * @param {string} movieTitle
  * @returns {Promise<any>}
  */
-async function apiCall(movieTitle) {
+export async function apiCall(movieTitle) {
     let options = {
         method: 'GET'
     };
@@ -177,9 +135,7 @@ document.addEventListener('click', function (e) {
                 document.getElementById('type').value = s.type;
             }
         });
-
     }
-
 });
 
 let media = "";
@@ -234,7 +190,6 @@ document.getElementById('ManualOrApi').addEventListener('click', function () {
             console.log("manual la");
             document.getElementById('manual').style.display = "block";
             manualOrWithApi = "manual";
-
             break;
         case "Api":
             manualOrWithApi = "WithApi";
@@ -246,7 +201,6 @@ if (manualOrWithApi === "") {
     manualOrWithApi = "WithApi";
 }
 
-
 document.getElementById('btnSubmit').addEventListener('click', async function () {
     if (edit === true) {
         deleteMedia(ElementRec);
@@ -257,11 +211,14 @@ document.getElementById('btnSubmit').addEventListener('click', async function ()
     //let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
 
     document.getElementById('form').style.display = "none";
-    useApiAndInsertInCollection()
-
+    if(manualOrWithApi === 'WithApi') {
+        await useApiAndInsertInCollection(media,typeOfMedia,tab,collection,typeTrie);//Add media with api attribute
+    }
+    else {
+        manualInsert(media,typeOfMedia,tab,collection,typeTrie);//Add media with manual input
+    }
 });
 
-//-------------------------------------------------main-------------------------------------------------//
 /**
  * @name affichage
  * @description display the collection
@@ -269,7 +226,7 @@ document.getElementById('btnSubmit').addEventListener('click', async function ()
  */
 affichage("All");
 
-function affichage(type, tableau) {
+export function affichage(type, tableau) {
     let data = localStorage.getItem("Collection");
 
     if (data !== null || tableau !== undefined) {
@@ -362,7 +319,7 @@ window.addEventListener('load', trie);
  *
  * @name deleteChild
  * @description delete the child of the element
- *  @param  element
+ *  @param  e
  */
 
 function deleteMedia(e) {

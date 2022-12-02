@@ -80,12 +80,11 @@
                 <div class="DateInput"><label for="date">Release Date :</label><input type="date" id="date" rows="1" cols="20"></div>
                 <div class="descript">
                     <label for="subject">Description</label>
-                    <textarea id="subject" name="subject" placeholder="Write something.."
-                              style="height:50px"></textarea>
+                    <textarea id="subject" name="subject" placeholder="Write something.." style="height:50px"></textarea>
                 </div>
                 <div class="RatingManual">
                     <label for="rating">Rating</label>
-                    <input type="number" id="rating" name="rating" min="0" max="5">
+                    <input type="number" id="rating" name="rating" min="0" max="10">
                 </div>
                 <div class="specific">
                     <h2> specific </h2>
@@ -103,6 +102,7 @@
 </div>
 <script type="module" src="./js/script.js"></script>
 <script type="module" src="./js/ratingStars.js"></script>
+<script type="module" src="./js/InsertManualOrWithApi.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
