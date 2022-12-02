@@ -15,6 +15,52 @@ let typeTrie = "All";
 let fait = false;
 let manualOrWithApi = "";
 
+
+async function useApiAndInsertInCollection() {
+
+    if (typeOfMedia === "") {
+        alert("Please select a type and after submit");
+        media = "";
+    } else {
+        media = objectController(typeOfMedia);
+        console.log(media);
+        typeOfMedia = "";
+        console.log("ok")
+//-------------------------------------------------main-------------------------------------------------//
+        if (localStorage.getItem('Collection') !== null) {
+
+            tab = JSON.parse(localStorage.getItem('Collection'));
+            let similar = media.title;
+            let index = tab.findIndex((media) => media.title === similar);//find the index of the media with the same title
+            console.log(index);
+            if (index === -1) {//if the media is not in the collection
+                console.log("collection exist");
+                console.log("media ajouté");
+                const a = await apiCall(media.title);//call the api
+                media.img = a.Poster;//add the poster to the media
+                media.rating = a.imdbRating;//add the rating to the media
+                media.description = a.Plot;//add the description to the media
+                console.log("je suis la");
+                tab.push(media);
+                localStorage.setItem('Collection', JSON.stringify(tab));
+                affichage(typeTrie);//display the collection
+            } else {
+                alert("title exist in array modify the title for add this media");//if the media is in the collection
+                media = "";
+            }
+        } else {//if the collection is empty
+            const a = await apiCall(media.title);//call the api
+            media.img = a.Poster;//add the poster to the media
+            media.rating = a.imdbRating;//add the rating to the media
+            media.description = a.Plot;//add the description to the media
+            console.log("je suis la dans la collect vide");
+            let stars = ratingStars(media.rating);//call the function ratingStars for display the stars
+            document.getElementById("list").innerHTML = returnBalise(media, stars);
+            collection.addMedia(media);//add the media to the collection
+        }
+    }
+}
+
 function objectController(type) {
     if (type === "Game") {
         return new Game(document.getElementById("studio").value, "nbplayers", "plot", document.getElementById('title').value, document.getElementById('date').value, "rating", "img", "description", "Game");
@@ -22,7 +68,6 @@ function objectController(type) {
         return new Album(document.getElementById("Artist").value, "nbTracks", document.getElementById('title').value, document.getElementById('date').value, "rating", "img", "description", "Album");
     } else if (type === "Movie") {
         return new Movie("director", document.getElementById("actor").value, "duration", "plot", document.getElementById('title').value, document.getElementById('date').value, "rating", "img", "description", "Movie");
-
     }
 }
 
@@ -47,6 +92,7 @@ function addSpecificAttribut(obj) {
 function returnBalise(obj, stars) {
     let attribut = addSpecificAttribut(obj);
     let txtTest = "";
+
     txtTest = `<div class="card" "` + obj.title + `" style="width: 18rem;">` +
         `<img class="card-img-top" src="` + obj.img + `" alt="Card image cap">` +
         '<div class="card-body">' +
@@ -54,13 +100,18 @@ function returnBalise(obj, stars) {
         '<p class="card-text">' + obj.releaseDate + '</p>' +
         '<p class="card-text">' + obj.description + '</p>' +
         `<div class="card-text" id="insertSpecificAttribut">` + attribut + `</div>` +
-        `<div class="rating" id="ratingId">` +
-        `<span class="rating__result"></span>` +
-        stars +
-        `</div>` +
-        '</div>' + `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
-        `<button type="button" id="edit` + i + `" class="btn-edit">edit</button>` +
-        '</div>';
+        '</div>'+
+        '<div class="divRating">' +
+            `<div class="rating" id="ratingId">` +
+                `<span class="rating__result"></span>` +
+                    stars +
+            `</div>` +
+            `<button type="button" id="remove` + i + `" class="btn-delete">delete</button>` +
+            `<button type="button" id="edit` + i + `" class="btn-edit">edit</button>` +
+        '</div>' +
+        '</div>'
+        ;
+
 
     return txtTest;
 }
@@ -179,11 +230,15 @@ document.getElementById('type').addEventListener('click', function () {
 document.getElementById('ManualOrApi').addEventListener('click', function () {
     console.log(document.getElementById('ManualOrApi').value);
     switch (document.getElementById('ManualOrApi').value) {
-        case "manual":
+        case "Manual":
+            console.log("manual la");
+            document.getElementById('manual').style.display = "block";
             manualOrWithApi = "manual";
+
             break;
-        case "api":
+        case "Api":
             manualOrWithApi = "WithApi";
+            document.getElementById('manual').style.display = "none";
             break;
     }
 });
@@ -202,46 +257,8 @@ document.getElementById('btnSubmit').addEventListener('click', async function ()
     //let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
 
     document.getElementById('form').style.display = "none";
+    useApiAndInsertInCollection()
 
-    if (typeOfMedia === "") {
-        alert("Please select a type and after submit");
-        media = "";
-    } else {
-        media = objectController(typeOfMedia);
-        console.log(media);
-        typeOfMedia = "";
-        console.log("ok")
-//-------------------------------------------------main-------------------------------------------------//
-        if (localStorage.getItem('Collection') !== null) {
-
-            tab = JSON.parse(localStorage.getItem('Collection'));
-            let similar = media.title;
-            let index = tab.findIndex((media) => media.title === similar);//find the index of the media with the same title
-            console.log(index);
-            if (index === -1) {//if the media is not in the collection
-                console.log("collection exist");
-                console.log("media ajouté");
-                const a = await apiCall(media.title);//call the api
-                media.img = a.Poster;//add the poster to the media
-                media.rating = a.imdbRating;//add the rating to the media
-                console.log("je suis la");
-                tab.push(media);
-                localStorage.setItem('Collection', JSON.stringify(tab));
-                affichage(typeTrie);//display the collection
-            } else {
-                alert("title exist in array modify the title for add this media");//if the media is in the collection
-                media = "";
-            }
-        } else {//if the collection is empty
-            const a = await apiCall(media.title);//call the api
-            media.img = a.Poster;//add the poster to the media
-            media.rating = a.imdbRating;//add the rating to the media
-            console.log("je suis la dans la collect vide");
-            let stars = ratingStars(media.rating);//call the function ratingStars for display the stars
-            document.getElementById("list").innerHTML = returnBalise(media, stars);
-            collection.addMedia(media);//add the media to the collection
-        }
-    }
 });
 
 //-------------------------------------------------main-------------------------------------------------//

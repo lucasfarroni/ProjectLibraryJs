@@ -23,6 +23,7 @@
 .card{
     margin-left: 20px;
     margin-top: 10px;
+    width: 100%;
 }
 .btn-edit{
     color: white;
@@ -83,6 +84,11 @@
 
 .rating__star:hover {
     filter: drop-shadow(1px 1px 4px gold);
+}
+
+.divRating{
+
+
 }
 
 @media screen and (max-width: 981px) {
