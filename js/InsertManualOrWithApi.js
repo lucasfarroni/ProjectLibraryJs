@@ -1,6 +1,6 @@
 import {ratingStars} from "./ratingStars.js";
 import {objectController , controlIfExistInCollection , apiCall ,affichage , addSpecificAttribut, returnBalise } from "./script.js";
-import {Collection} from "../../../OneDrive/Bureau/Controller/Collection.js";
+import {Collection} from "../Controller/Collection.js";
 
 
 /**

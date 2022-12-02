@@ -1,8 +1,8 @@
-import {Collection} from "../../../OneDrive/Bureau/Controller/Collection.js";
+import {Collection} from "../Controller/Collection.js";
 import {ratingStars} from "./ratingStars.js";
-import {Game} from "../../../OneDrive/Bureau/Controller/Game.js";
-import {Album} from "../../../OneDrive/Bureau/Controller/Album.js";
-import {Movie} from "../../../OneDrive/Bureau/Controller/Movie.js";
+import {Game} from "../Controller/Game.js";
+import {Album} from "../Controller/Album.js";
+import {Movie} from "../Controller/Movie.js";
 import {manualInsert, useApiAndInsertInCollection} from "./InsertManualOrWithApi.js";
 
 let collection = new Collection();
