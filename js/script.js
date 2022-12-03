@@ -159,9 +159,9 @@ document.addEventListener('click', function (e) {
         dataParse.forEach((s) => {
             if (s.title === e.target.parentNode.parentNode.querySelector("h5").textContent) {
                 document.getElementById('rating').value = s.rating;
-                console.log(s.type);
-                document.getElementById('type').value = "";
                 let type = s.type;
+                typeOfMedia = type;
+                document.getElementById('type').value = "";
                 if (type === "Album") {
                     document.getElementById('type').value = "Album-btn";
                 }
@@ -171,6 +171,8 @@ document.addEventListener('click', function (e) {
                 if (type === "Movie") {
                     document.getElementById('type').value = "Movie-btn";
                 }
+                types();
+
             }
         });
     }
@@ -179,20 +181,23 @@ document.addEventListener('click', function (e) {
 let media = "";
 document.getElementById('type').addEventListener('click', function () {
 
-    type();
+    types();
 
 
 });
 
-document.getElementById('type').addEventListener('change', function () {
+document.getElementById('type').addEventListener('input', function () {
 
-    type();
+    console.log('input');
+    types();
 
 
 });
 
-function type() {
+function types() {
+    console.log(document.getElementById('type').value);
     switch (document.getElementById('type').value) {
+
         case "Album-btn":
             console.log("album");
             typeOfMedia = "Album";
@@ -255,7 +260,7 @@ document.getElementById('btnSubmit').addEventListener('click', async function ()
         edit = false
         ElementRec = "";
     }
-    console.log(media);
+    //console.log(media);
     //let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
 
     document.getElementById('form').style.display = "none";
