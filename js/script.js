@@ -15,6 +15,7 @@ let typeTrie = "All";
 let fait = false;
 let manualOrWithApi = "";
 
+
 /**
  * @description : control if media exist in collection
  * @param media
@@ -122,18 +123,23 @@ export async function apiCall(movieTitle) {
  */
 document.getElementById('btnAddMedia').addEventListener('click', function () {
 
+    document.getElementById('type').value = "";
+    document.getElementById('ManualOrApi').value = "Api";
     document.getElementById('form').style.display = "block";
+
 
 });
 
 document.getElementById('closeForm').addEventListener('click', function () {
     document.getElementById('form').style.display = "none";
+    document.getElementById('manual').style.display = "none";
     document.getElementById('title').value = "";
     document.getElementById('date').value = "";
     document.getElementById('subject').value = "";
     document.getElementById('basic-url').value = "";
     //document.getElementById('rating').value = "";
     document.getElementById('type').value = "Album-btn";
+    document.getElementById('ManualOrApi').value = "Api";
     edit = false;
 });
 
@@ -141,19 +147,30 @@ document.addEventListener('click', function (e) {
     if (e.target.className === "btn-edit") {
         edit = true;
         ElementRec = e;
-        console.log("edit");
         document.getElementById('form').style.display = "block";
-        console.log(document.getElementById('title').value = e.target.parentNode.querySelector("h5").textContent);
-        document.getElementById('title').value = e.target.parentNode.querySelector("h5").textContent;
-        document.getElementById('date').value = e.target.parentNode.querySelector("p").textContent;
-        document.getElementById('subject').value = e.target.parentNode.querySelector("p:nth-child(3)").textContent;
-        document.getElementById('basic-url').value = e.target.parentNode.querySelector("img").src;
+        document.getElementById('ManualOrApi').value = "Manual";
+        document.getElementById('manual').style.display = "block";
+        document.getElementById('title').value = e.target.parentNode.parentNode.querySelector("h5").textContent;
+        document.getElementById('date').value = e.target.parentNode.parentNode.querySelector("p").textContent;
+        document.getElementById('subject').value = e.target.parentNode.parentNode.querySelector("p:nth-child(3)").textContent;
+        document.getElementById('basic-url').value = e.target.parentNode.parentNode.querySelector("img").src;
         let data = localStorage.getItem("Collection");
         let dataParse = JSON.parse(data);
         dataParse.forEach((s) => {
-            if (s.title === e.target.parentNode.querySelector("h5").textContent) {
-                //document.getElementById('rating').value = s.rating;
-                document.getElementById('type').value = s.type;
+            if (s.title === e.target.parentNode.parentNode.querySelector("h5").textContent) {
+                document.getElementById('rating').value = s.rating;
+                console.log(s.type);
+                document.getElementById('type').value = "";
+                let type = s.type;
+                if (type === "Album") {
+                    document.getElementById('type').value = "Album-btn";
+                }
+                if (type === "Game") {
+                    document.getElementById('type').value = "Game-btn";
+                }
+                if (type === "Movie") {
+                    document.getElementById('type').value = "Movie-btn";
+                }
             }
         });
     }
@@ -162,8 +179,19 @@ document.addEventListener('click', function (e) {
 let media = "";
 document.getElementById('type').addEventListener('click', function () {
 
-    console.log(document.getElementById('type').value);
+    type();
 
+
+});
+
+document.getElementById('type').addEventListener('change', function () {
+
+    type();
+
+
+});
+
+function type() {
     switch (document.getElementById('type').value) {
         case "Album-btn":
             console.log("album");
@@ -201,7 +229,7 @@ document.getElementById('type').addEventListener('click', function () {
             //console.log(media);
             break;
     }
-});
+}
 
 document.getElementById('ManualOrApi').addEventListener('click', function () {
     console.log(document.getElementById('ManualOrApi').value);
@@ -231,6 +259,7 @@ document.getElementById('btnSubmit').addEventListener('click', async function ()
     //let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
 
     document.getElementById('form').style.display = "none";
+    document.getElementById('manual').style.display = "none";
     if (manualOrWithApi === 'WithApi') {
         await useApiAndInsertInCollection(media, typeOfMedia, tab, collection, typeTrie);//Add media with api attribute
     } else {
@@ -342,12 +371,12 @@ window.addEventListener('load', trie);
  */
 function deleteMedia(e) {
 
-    let Title = e.target.parentNode.querySelector("h5").textContent;
+    let Title = e.target.parentNode.parentNode.querySelector("h5").textContent;
     let data = JSON.parse(localStorage.getItem("Collection"));
     let index = data.findIndex((e) => e.title === Title);
     data.splice(index, 1);//delete the media in the collection
     localStorage.setItem("Collection", JSON.stringify(data));
-    e.target.parentNode.remove();
+    e.target.parentNode.parentNode.remove();
 }
 
 /**
