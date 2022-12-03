@@ -184,13 +184,6 @@ document.getElementById('type').addEventListener('click', function () {
 
 });
 
-document.getElementById('type').addEventListener('input', function () {
-
-    console.log('input');
-    types();
-
-
-});
 
 function types() {
     console.log(document.getElementById('type').value);
