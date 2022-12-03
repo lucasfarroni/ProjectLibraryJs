@@ -184,6 +184,12 @@ document.getElementById('type').addEventListener('click', function () {
 
 });
 
+document.getElementById('type').addEventListener('change', function () {
+
+    type();
+
+
+});
 
 function types() {
     console.log(document.getElementById('type').value);
@@ -248,6 +254,9 @@ function ManualorApif() {
             document.getElementById('manual').style.display = "none";
             break;
     }
+}
+if (manualOrWithApi === "") {
+    manualOrWithApi = "WithApi";
 }
 
 

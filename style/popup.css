@@ -1,5 +1,20 @@
 
 
+#general{
+    text-align: center;
+    border-bottom: black 1px solid;
+    font-family: 'Roboto', sans-serif;
+}
+#specificTitle{
+    text-align: center;
+    border-bottom: black 1px solid;
+
+}
+#specificTitle{
+    text-align: center;
+}
+
+
 #btnAddMedia{
     margin-left: 1%;
 
@@ -38,6 +53,14 @@
     #btnAddMedia{
         margin: 0;
         margin-top: 1%;
+    }
+
+    .insertMedia{
+        display: flex;
+        flex-direction: column;
+    }
+    #ManualOrApi{
+        width: 45%;
     }
 }
 /*
