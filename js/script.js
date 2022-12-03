@@ -160,8 +160,6 @@ document.addEventListener('click', function (e) {
             if (s.title === e.target.parentNode.parentNode.querySelector("h5").textContent) {
                 document.getElementById('rating').value = s.rating;
                 let type = s.type;
-                typeOfMedia = type;
-                document.getElementById('type').value = "";
                 if (type === "Album") {
                     document.getElementById('type').value = "Album-btn";
                 }
