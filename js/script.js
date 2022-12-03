@@ -149,7 +149,7 @@ document.addEventListener('click', function (e) {
         ElementRec = e;
         document.getElementById('form').style.display = "block";
         document.getElementById('ManualOrApi').value = "Manual";
-        document.getElementById('manual').style.display = "block";
+        ManualorApif();
         document.getElementById('title').value = e.target.parentNode.parentNode.querySelector("h5").textContent;
         document.getElementById('date').value = e.target.parentNode.parentNode.querySelector("p").textContent;
         document.getElementById('subject').value = e.target.parentNode.parentNode.querySelector("p:nth-child(3)").textContent;
@@ -237,6 +237,14 @@ function types() {
 }
 
 document.getElementById('ManualOrApi').addEventListener('click', function () {
+
+    ManualorApif();
+});
+if (manualOrWithApi === "") {
+    manualOrWithApi = "WithApi";
+}
+
+function ManualorApif() {
     console.log(document.getElementById('ManualOrApi').value);
     switch (document.getElementById('ManualOrApi').value) {
         case "Manual":
@@ -249,10 +257,8 @@ document.getElementById('ManualOrApi').addEventListener('click', function () {
             document.getElementById('manual').style.display = "none";
             break;
     }
-});
-if (manualOrWithApi === "") {
-    manualOrWithApi = "WithApi";
 }
+
 
 document.getElementById('btnSubmit').addEventListener('click', async function () {
     if (edit === true) {
