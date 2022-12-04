@@ -191,11 +191,15 @@ document.getElementById('type').addEventListener('change', function () {
 
 });
 
+/**
+ * @name types
+ * @description insert in html the good input for the type of media
+ */
 function types() {
     console.log(document.getElementById('type').value);
     switch (document.getElementById('type').value) {
 
-        case "Album-btn":
+        case "Album-btn"://  if type is album insert  an input for add attribut artist
             console.log("album");
             typeOfMedia = "Album";
             document.getElementById('specificType').innerHTML =
@@ -203,11 +207,10 @@ function types() {
                 '<label htmlFor="Artist">Name of the artist</label>' +
                 '<input type="text" class="form-control" id="Artist" placeholder="Example input">' +
                 '</div>';
-            //media = new Album(document.getElementById("Artist").value, "nbTracks", document.getElementById('title').value, document.getElementById('date').value, "rating", "img","description");
-            //console.log(media);
+
             break;
 
-        case "Game-btn":
+        case "Game-btn"://  if type is game insert  an input for add attribut studio
             console.log("Game");
             typeOfMedia = "Game";
             document.getElementById('specificType').innerHTML =
@@ -215,11 +218,10 @@ function types() {
                 '<label htmlFor="studio">Name of the studio</label>' +
                 '<input type="text" class="form-control" id="studio" placeholder="Example input">' +
                 '</div>';
-            //media = new Game(document.getElementById("studio").value, "nbplayers", "plot", document.getElementById('title').value, document.getElementById('date').value, "rating", "img","description");
-            // console.log(media);
+
             break;
 
-        case "Movie-btn":
+        case "Movie-btn"://  if type is movie insert  an input for add attribut actor
             console.log("movie");
             typeOfMedia = "Movie";
             document.getElementById('specificType').innerHTML =
@@ -227,25 +229,27 @@ function types() {
                 '<label htmlFor="actor">Name of the actor</label>' +
                 '<input type="text" class="form-control" id="actor" placeholder="Example input">' +
                 '</div>';
-            //media = new Movie("director", document.getElementById("actor").value, "duration", "plot", document.getElementById('title').value, document.getElementById('date').value, "rating", "img","description");
-            //console.log(media);
+
             break;
     }
 }
 
 document.getElementById('ManualOrApi').addEventListener('click', function () {
-
-    ManualorApif();
+    ManualorApif();//
 });
 if (manualOrWithApi === "") {
     manualOrWithApi = "WithApi";
 }
 
+/**
+ * @name ManualorApif
+ * @description display the good form for add a media if the user want to add a media with the api or manualy
+ */
 function ManualorApif() {
     console.log(document.getElementById('ManualOrApi').value);
     switch (document.getElementById('ManualOrApi').value) {
         case "Manual":
-            console.log("manual la");
+            console.log("manual");
             document.getElementById('manual').style.display = "block";
             manualOrWithApi = "manual";
             break;
@@ -266,8 +270,6 @@ document.getElementById('btnSubmit').addEventListener('click', async function ()
         edit = false
         ElementRec = "";
     }
-    //console.log(media);
-    //let media = new Media(document.getElementById('title').value, document.getElementById('date').value, "rating", "img", document.getElementById('subject').value, document.getElementById('type').value);
 
     document.getElementById('form').style.display = "none";
     document.getElementById('manual').style.display = "none";
